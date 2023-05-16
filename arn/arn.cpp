@@ -1,102 +1,100 @@
 #include "arn.h"
 
-// insert the key to the tree in its appropriate position
-// and fix the tree
-void ARN::add(std::string key) {
-    // Ordinary Binary Search Insertion
-    NoARN* y = nullptr;
-    NoARN* x = this->raiz;
 
-    while (x != nullptr) {
-        y = x;
-        if (key < x->key) x = x->esq;
-        else if (key > x->key) x = x->dir;
-        else { // if key == x->key
-            x->numOcorrencias++;
-            return;
-        }
+NoARN* ARN::searchTreeHelper(NoARN* node, std::string key) {
+    if (node == TNULL || key == node->key) {
+        return node;
     }
 
-    NoARN* node = new NoARN(key, nullptr);
-
-    // y is pai of x
-    node->pai = y;
-    if (y == nullptr) raiz = node;
-    else if (node->key < y->key) y->esq = node;
-    else if (node->key > y->key) y->dir = node;
-
-    // if new node is a raiz node, simply return
-    if (node->pai == nullptr){
-        node->cor = false;
-        return;
-    }
-
-    // if the avo is null, simply return
-    if (node->pai->pai == nullptr) return;
-
-    // Fix the tree
-    arruma(node);
+    if (key < node->key) {
+        return searchTreeHelper(node->esq, key);
+    } 
+    return searchTreeHelper(node->dir, key);
 }
 
-void ARN::arruma(NoARN* k){
+NoARN* ARN::searchTree(std::string k) {
+    return searchTreeHelper(this->raiz, k);
+}
+
+// fix the red-black tree
+void ARN::fixInsert(NoARN* k){
     NoARN* u;
-    while (k->pai->cor) {
+    while (k->pai->cor == 1) {
         if (k->pai == k->pai->pai->dir) {
-            u = k->pai->pai->esq; // tio
-            if (u->cor || u == nullptr) {
+            u = k->pai->pai->esq; // uncle
+            if (u->cor == 1) {
                 // case 3.1
-                if (u == nullptr)
-                    u = new NoARN(" ", k->pai);
                 u->cor = 0;
-                k->pai->cor = false;
-                k->pai->pai->cor = true;
+                k->pai->cor = 0;
+                k->pai->pai->cor = 1;
                 k = k->pai->pai;
             } else {
                 if (k == k->pai->esq) {
                     // case 3.2.2
                     k = k->pai;
-                    rotacionaDireita(k);
+                    dirRotate(k);
                 }
                 // case 3.2.1
                 k->pai->cor = 0;
                 k->pai->pai->cor = 1;
-                rotacionaEsquerda(k->pai->pai);
+                esqRotate(k->pai->pai);
             }
         } else {
-            u = k->pai->pai->dir; // tio
+            u = k->pai->pai->dir; // uncle
 
-            if (u->cor || u == nullptr) {
+            if (u->cor == 1) {
                 // mirror case 3.1
-                if (u == nullptr)
-                    u = new NoARN(" ", k->pai->pai);
-                u->cor = false;
-                k->pai->cor = false;
-                k->pai->pai->cor = true;
+                u->cor = 0;
+                k->pai->cor = 0;
+                k->pai->pai->cor = 1;
                 k = k->pai->pai;	
             } else {
                 if (k == k->pai->dir) {
                     // mirror case 3.2.2
                     k = k->pai;
-                    rotacionaEsquerda(k);
+                    esqRotate(k);
                 }
                 // mirror case 3.2.1
-                k->pai->cor = false;
-                k->pai->pai->cor = true;
-                rotacionaDireita(k->pai->pai);
+                k->pai->cor = 0;
+                k->pai->pai->cor = 1;
+                dirRotate(k->pai->pai);
             }
         }
         if (k == raiz) {
             break;
         }
     }
-    raiz->cor = false;
+    raiz->cor = 0;
 }
 
+
+void ARN::printHelper(NoARN* raiz, std::string indent, bool last) {
+    // print the tree structure on the screen
+    if (raiz != TNULL) {
+        std::cout<<indent;
+        if (last) {
+            std::cout<<"R----";
+            indent += "     ";
+        } else {
+            std::cout<<"L----";
+            indent += "|    ";
+        }
+        
+        std::string sColor = raiz->cor?"RED":"BLACK";
+        std::cout<<raiz->key<<"("<<sColor<<")"<<std::endl;
+        printHelper(raiz->esq, indent, false);
+        printHelper(raiz->dir, indent, true);
+    }
+    // cout<<raiz->esq->key<<endl;
+}
+
+
+
 // rotate esq at node x
-void ARN::rotacionaEsquerda(NoARN* x) {
+void ARN::esqRotate(NoARN* x) {
     NoARN* y = x->dir;
     x->dir = y->esq;
-    if (y->esq != nullptr) {
+    if (y->esq != TNULL) {
         y->esq->pai = x;
     }
     y->pai = x->pai;
@@ -112,10 +110,10 @@ void ARN::rotacionaEsquerda(NoARN* x) {
 }
 
 // rotate dir at node x
-void ARN::rotacionaDireita(NoARN* x) {
+void ARN::dirRotate(NoARN* x) {
     NoARN* y = x->esq;
     x->esq = y->dir;
-    if (y->dir != nullptr) {
+    if (y->dir != TNULL) {
         y->dir->pai = x;
     }
     y->pai = x->pai;
@@ -130,38 +128,52 @@ void ARN::rotacionaDireita(NoARN* x) {
     x->pai = y;
 }
 
-NoARN* ARN::value(std::string k) {
-    return searchTreeHelper(this->raiz, k);
-}
+void ARN::insert(std::string key) {
+    // Ordinary Binary Search Insertion
+    NoARN* y = nullptr;
+    NoARN* x = this->raiz;
 
-NoARN* ARN::searchTreeHelper(NoARN* node, std::string key) {
-    if (node == nullptr || key == node->key)
-        return node;
-    if (key < node->key)
-        return searchTreeHelper(node->esq, key);
-    return searchTreeHelper(node->dir, key);
-}
-
-void ARN::printHelper(NoARN* root, std::string indent, bool last) {
-    // print the tree structure on the screen
-    if (root != nullptr) {
-        std::cout << indent;
-        if (last) {
-            std::cout << "R----";
-            indent += "     ";
-        } else {
-            std::cout<<"L----";
-            indent += "|    ";
+    while (x != TNULL) {
+        y = x;
+        if (key < x->key)
+            x = x->esq;
+        else if (key > x->key)
+            x = x->dir;
+        else {
+            x->numOcorrencias++;
+            return;
         }
-        
-        std::string sColor = root->cor ? "RED":"BLACK";
-        std::cout << root->key << "(" << sColor << ")" << std::endl;
-        printHelper(root->esq, indent, false);
-        printHelper(root->dir, indent, true);
     }
-    // cout<<root->left->data<<endl;
+
+    NoARN* node = new NoARN();
+    node->pai = nullptr;
+    node->key = key;
+    node->esq = TNULL;
+    node->dir = TNULL;
+    node->cor = true; // new node must be red
+
+    // y is pai of x
+    node->pai = y;
+    if (y == nullptr) {
+        raiz = node;
+    } else if (node->key < y->key) {
+        y->esq = node;
+    } else {
+        y->dir = node;
+    }
+
+    // if new node is a raiz node, simply return
+    if (node->pai == nullptr){
+        node->cor = 0;
+        return;
+    }
+
+    // if the grandpai is null, simply return
+    if (node->pai->pai == nullptr) {
+        return;
+    }
+
+    // Fix the tree
+    fixInsert(node);
 }
 
-void ARN::prettyPrint() {
-    if (this->raiz) printHelper(this->raiz, "", true);
-}
