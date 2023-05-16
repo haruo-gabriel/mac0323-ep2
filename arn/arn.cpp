@@ -1,67 +1,23 @@
 #include "arn.h"
 
-// void ARN::add(std::string key) {
-//     // árvore vazia
-//     if (this->raiz == nullptr) {
-//         this->raiz = new NoARN(key, nullptr);
-//         return;
-//     }
-//     // árvore não-vazia
-//     NoARN* p = raiz;
-//     // busca em ABB
-//     while (p != nullptr) {
-//         if (key < p->key) {
-//             if (p->esq == nullptr) {
-//                 p->esq = new NoARN(key, p);
-//                 p = p->esq;
-//                 break;
-//             } else
-//                 p = p->esq;
-//         } else if (key > p->key) {
-//             if (p->dir == nullptr) {
-//                 p->dir = new NoARN(key, p);
-//                 p = p->dir;
-//                 break;
-//             } else
-//                 p = p->dir;
-//         } else {
-//             p->numOcorrencias++;
-//             return;
-//         }
-//     }
-//     if (p->pai == nullptr) { // p é raíz
-//         this->raiz = p;
-//         return;
-//     }
-//     if (!p->pai->cor) // pai é preto
-//         return;
-//     else { // pai é vermelho
-//         if (p->pai->pai == nullptr) // não tem avô
-//             p->pai->cor = false;
-//         else { // tem avô (o avô é preto)
-
-//         }
-//     }
-    
-// }
-
 // insert the key to the tree in its appropriate position
 // and fix the tree
 void ARN::add(std::string key) {
     // Ordinary Binary Search Insertion
-    NoARN* node = new NoARN(key, nullptr);
     NoARN* y = nullptr;
     NoARN* x = this->raiz;
 
     while (x != nullptr) {
         y = x;
-        if (node->key < x->key) {
-            x = x->esq;
-        } else if (node->key > key) {
-            x = x->dir;
+        if (key < x->key) x = x->esq;
+        else if (key > x->key) x = x->dir;
+        else { // if key == x->key
+            x->numOcorrencias++;
+            return;
         }
     }
 
+    NoARN* node = new NoARN(key, nullptr);
 
     // y is pai of x
     node->pai = y;
@@ -71,7 +27,7 @@ void ARN::add(std::string key) {
 
     // if new node is a raiz node, simply return
     if (node->pai == nullptr){
-        node->cor = 0;
+        node->cor = false;
         return;
     }
 
@@ -83,53 +39,57 @@ void ARN::add(std::string key) {
 }
 
 void ARN::arruma(NoARN* k){
-		NoARN* u;
-		while (k->pai->cor) {
-			if (k->pai == k->pai->pai->dir) {
-				u = k->pai->pai->esq; // uncle
-				if (u->cor) {
-					// case 3.1
-					u->cor = 0;
-					k->pai->cor = false;
-					k->pai->pai->cor = true;
-					k = k->pai->pai;
-				} else {
-					if (k == k->pai->esq) {
-						// case 3.2.2
-						k = k->pai;
-						rotacionaDireita(k);
-					}
-					// case 3.2.1
-					k->pai->cor = 0;
-					k->pai->pai->cor = 1;
-					rotacionaEsquerda(k->pai->pai);
-				}
-			} else {
-				u = k->pai->pai->dir; // uncle
+    NoARN* u;
+    while (k->pai->cor) {
+        if (k->pai == k->pai->pai->dir) {
+            u = k->pai->pai->esq; // tio
+            if (u->cor || u == nullptr) {
+                // case 3.1
+                if (u == nullptr)
+                    u = new NoARN(" ", k->pai);
+                u->cor = 0;
+                k->pai->cor = false;
+                k->pai->pai->cor = true;
+                k = k->pai->pai;
+            } else {
+                if (k == k->pai->esq) {
+                    // case 3.2.2
+                    k = k->pai;
+                    rotacionaDireita(k);
+                }
+                // case 3.2.1
+                k->pai->cor = 0;
+                k->pai->pai->cor = 1;
+                rotacionaEsquerda(k->pai->pai);
+            }
+        } else {
+            u = k->pai->pai->dir; // tio
 
-				if (u->cor) {
-					// mirror case 3.1
-					u->cor = false;
-					k->pai->cor = false;
-					k->pai->pai->cor = true;
-					k = k->pai->pai;	
-				} else {
-					if (k == k->pai->dir) {
-						// mirror case 3.2.2
-						k = k->pai;
-						rotacionaEsquerda(k);
-					}
-					// mirror case 3.2.1
-					k->pai->cor = false;
-					k->pai->pai->cor = true;
-					rotacionaDireita(k->pai->pai);
-				}
-			}
-			if (k == raiz) {
-				break;
-			}
-		}
-		raiz->cor = false;
+            if (u->cor || u == nullptr) {
+                // mirror case 3.1
+                if (u == nullptr)
+                    u = new NoARN(" ", k->pai->pai);
+                u->cor = false;
+                k->pai->cor = false;
+                k->pai->pai->cor = true;
+                k = k->pai->pai;	
+            } else {
+                if (k == k->pai->dir) {
+                    // mirror case 3.2.2
+                    k = k->pai;
+                    rotacionaEsquerda(k);
+                }
+                // mirror case 3.2.1
+                k->pai->cor = false;
+                k->pai->pai->cor = true;
+                rotacionaDireita(k->pai->pai);
+            }
+        }
+        if (k == raiz) {
+            break;
+        }
+    }
+    raiz->cor = false;
 }
 
 // rotate esq at node x
