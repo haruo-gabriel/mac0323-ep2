@@ -1,10 +1,4 @@
 #include "../lib.h"
-
-// Red Black Tree implementation in C++
-// Author: Algorithm Tutor
-// Tutorial URL: https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/
-
-// key structure that represents a node in the tree
 class NoARN{
 public:
 	NoARN* pai; NoARN* esq; NoARN* dir;
