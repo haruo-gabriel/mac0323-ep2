@@ -5,29 +5,39 @@
 // Tutorial URL: https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/
 
 // key structure that represents a node in the tree
-struct NoARN{
-	NoARN* pai; // pointer to the pai
-	NoARN*esq; // pointer to esq child
-	NoARN* dir; // pointer to dir child
-	bool cor; // 1 -> Red, 0 -> Black
+class NoARN{
+public:
+	NoARN* pai; NoARN* esq; NoARN* dir;
+    bool cor; // true = vermelho, false = preto
 
-	std::string key; // holds the key
-    int numOcorrencias;
-    int numLetras;
-    int numVogaisUnicas;
+	std::string key;
+    int numOcorrencias, numLetras, numVogaisUnicas;
+
+    NoARN(std::string key, bool cor, NoARN* pai, NoARN* esq, NoARN* dir) {
+        this->pai = pai;
+        this->esq = esq;
+        this->dir = dir;
+        this->cor = cor;
+        this->key = key;
+        this->numOcorrencias = 1;
+        this->numLetras = contaNumLetras(key);
+        this->numVogaisUnicas = contaNumVogaisUnicas(key);
+    }
 };
 
-
-// class ARN implements the operations in Red Black Tree
 class ARN {
 private:
 	NoARN* raiz;
 	NoARN* TNULL;
 
-	// initializes the nodes with appropirate values
+	NoARN* valueHelper(NoARN* node, std::string key);
+	void arruma(NoARN* k);
+	void printHelper(NoARN* raiz, std::string indent, bool last);
+
+	// initializes the nodes with appropriate values
 	// all the pointers are set to point to the null pointer
 	void initializeNULLNode(NoARN* node, NoARN* pai) {
-		node->key = " ";
+		node->key = "";
 		node->pai = pai;
 		node->esq = nullptr;
 		node->dir = nullptr;
@@ -58,8 +68,6 @@ private:
 		} 
 	}
 
-	NoARN* searchTreeHelper(NoARN* node, std::string key);
-
 	// fix the rb tree modified by the delete operation
 	void fixDelete(NoARN* x) {
 		NoARN* s;
@@ -70,7 +78,7 @@ private:
 					// case 3.1
 					s->cor = 0;
 					x->pai->cor = 1;
-					esqRotate(x->pai);
+					rotacionaEsq(x->pai);
 					s = x->pai->dir;
 				}
 
@@ -83,7 +91,7 @@ private:
 						// case 3.3
 						s->esq->cor = 0;
 						s->cor = 1;
-						dirRotate(s);
+						rotacionaDir(s);
 						s = x->pai->dir;
 					} 
 
@@ -91,7 +99,7 @@ private:
 					s->cor = x->pai->cor;
 					x->pai->cor = 0;
 					s->dir->cor = 0;
-					esqRotate(x->pai);
+					rotacionaEsq(x->pai);
 					x = raiz;
 				}
 			} else {
@@ -100,7 +108,7 @@ private:
 					// case 3.1
 					s->cor = 0;
 					x->pai->cor = 1;
-					dirRotate(x->pai);
+					rotacionaDir(x->pai);
 					s = x->pai->esq;
 				}
 
@@ -113,7 +121,7 @@ private:
 						// case 3.3
 						s->dir->cor = 0;
 						s->cor = 1;
-						esqRotate(s);
+						rotacionaEsq(s);
 						s = x->pai->esq;
 					} 
 
@@ -121,7 +129,7 @@ private:
 					s->cor = x->pai->cor;
 					x->pai->cor = 0;
 					s->esq->cor = 0;
-					dirRotate(x->pai);
+					rotacionaDir(x->pai);
 					x = raiz;
 				}
 			} 
@@ -193,19 +201,45 @@ private:
 		}
 	}
 	
-	// fix the red-black tree
-	void fixInsert(NoARN* k);
-
-	void printHelper(NoARN* raiz, std::string indent, bool last);
 
 public:
 	ARN() {
-		TNULL = new NoARN();
-		TNULL->cor = false;
-		TNULL->esq = nullptr;
-		TNULL->dir = nullptr;
+		TNULL = new NoARN("", false, nullptr, nullptr, nullptr);
+		// TNULL = new NoARN();
+		// TNULL->cor = false;
+		// TNULL->esq = nullptr;
+		// TNULL->dir = nullptr;
 		raiz = TNULL;
 	}
+
+	// search the tree for the key k
+	// and return the corresponding node
+	NoARN* value(std::string k);
+
+	// rotate esq at node x
+	void rotacionaEsq(NoARN* x);
+
+	// rotate dir at node x
+	void rotacionaDir(NoARN* x);
+    
+	// add the key to the tree in its appropriate position
+	// and fix the tree
+	void add(std::string key);
+
+	// print the tree structure on the screen
+	void prettyPrint() {
+	    if (raiz) {
+    		printHelper(this->raiz, "", true);
+	    }
+	}
+
+    // imprime as values de uma key
+    void printValue(NoARN* node) {
+        std::cout << "Key: " << node->key << std::endl;
+        std::cout << "Ocorrências: " << node->numOcorrencias << std::endl;
+        std::cout << "Número de letras: " << node->numLetras << std::endl;
+        std::cout << "Número de vogais não-repetidas: " << node->numVogaisUnicas << std::endl;
+    }
 
 	// Pre-Order traversal
 	// Node->Left Subtree->Right Subtree
@@ -224,10 +258,6 @@ public:
 	void postorder() {
 		postOrderHelper(this->raiz);
 	}
-
-	// search the tree for the key k
-	// and return the corresponding node
-	NoARN* searchTree(std::string k);
 
 	// find the node with the minimum key
 	NoARN* minimum(NoARN* node) {
@@ -282,16 +312,6 @@ public:
 		return y;
 	}
 
-	// rotate esq at node x
-	void esqRotate(NoARN* x);
-
-	// rotate dir at node x
-	void dirRotate(NoARN* x);
-    
-	// insert the key to the tree in its appropriate position
-	// and fix the tree
-	void insert(std::string key);
-
 	NoARN* getRoot(){
 		return this->raiz;
 	}
@@ -301,11 +321,5 @@ public:
 		deleteNodeHelper(this->raiz, key);
 	}
 
-	// print the tree structure on the screen
-	void prettyPrint() {
-	    if (raiz) {
-    		printHelper(this->raiz, "", true);
-	    }
-	}
 
 };

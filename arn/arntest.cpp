@@ -2,38 +2,21 @@
 #include "arn.h"
 
 int main() {
-    // test add function
     ARN arn = ARN();
+    std::string s;
+    NoARN* aux;
 
-    // add the word "b"
-    arn.insert("b");
-    arn.prettyPrint();
-    std::cout << std::endl;
-
-    // add word "a"
-    arn.insert("a");
-    arn.prettyPrint();
-    std::cout << std::endl;
-
-    // add word "e"
-    arn.insert("e");
-    arn.prettyPrint();
-    std::cout << std::endl;
-
-    // add the word "d"
-    arn.insert("d");
-    arn.prettyPrint();
-    std::cout << std::endl;
-
-    // add the word "c"
-    arn.insert("c");
-    arn.prettyPrint();
-    std::cout << std::endl;
-
-    // add the word "c" again
-    arn.insert("c");
-    arn.prettyPrint();
-    std::cout << std::endl;
+    while (true) {
+        std::cout << "Insira uma palavra: ";
+        std::cin >> s;
+        std::cout << std::endl;
+        arn.add(s);
+        arn.prettyPrint();
+        std::cout << std::endl;
+        aux = arn.value(s);
+        arn.printValue(aux);
+        std::cout << std::endl;
+    }
 
     return 0;
 }
