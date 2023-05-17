@@ -32,3 +32,9 @@ struct Palavra {
         this->value = new Item(key);
     }
 };
+
+std::string palavrasMaisFrequentes(std::vector<Palavra*> palavras);
+int frequenciaPalavra(std::vector<Palavra*> palavras, std::string palavra);
+std::string palavraMaisLonga(std::vector<Palavra*> palavras);
+std::string palavraMaisLongaSemRepeticao(std::vector<Palavra*> palavras);
+std::string palavraMaisCurtaMaisVogaisSemRepeticao(std::vector<Palavra*> palavras);

@@ -1,27 +1,28 @@
 #include <iostream>
 #include "lib.h"
+#include "vo/vo.h"
 
 // main - 
 // vo - codado + testado
 // abb - codado + testado
 // tr - codado + testado
 // a23
-// arn
+// arn - codado + testado
 
 
 int main() {
-    std::string e;
-    int n, q; 
-    
+    std::string e, p;
+    int n, q;
     std::cin >> e >> n;
 
-    // lê as n palavras do texto
-    for (int i = 0; i < n; i++) {
-
-    }
-
     if (e == "VO") {
-
+        VO vo = VO();
+        for (int i=0; i<n; i++) {
+            std::cin >> p;
+            // std::cout << p << std::endl;
+            if ()
+            vo.add(p);
+        }
     }
     else if (e == "ABB"){
 
