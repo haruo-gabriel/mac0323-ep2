@@ -1,5 +1,4 @@
 #include <iostream>
-#include "lib.h"
 #include "vo/vo.h"
 
 // main - 
@@ -12,17 +11,19 @@
 
 int main() {
     std::string e, p;
-    int n, q;
+    char c;
+    unsigned int n, q;
+    std::vector<std::string> palavras;
+
     std::cin >> e >> n;
+    palavras = separaPalavras(n);
+    for (const std::string& it : palavras)
+        std::cout << it << " ";
+    std::cout << std::endl;
 
     if (e == "VO") {
-        VO vo = VO();
-        for (int i=0; i<n; i++) {
-            std::cin >> p;
-            // std::cout << p << std::endl;
-            if ()
-            vo.add(p);
-        }
+        // VO vo = VO();
+        std::cout << "puta" << std::endl;
     }
     else if (e == "ABB"){
 

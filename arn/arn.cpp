@@ -1,6 +1,5 @@
 #include "arn.h"
 
-
 NoARN* ARN::valueHelper(NoARN* node, std::string key) {
     if (node == TNULL || key == node->key) {
         return node;

@@ -20,49 +20,34 @@ int VO::search(std::string key) {
     return esq;
 }
 
-Item* VO::value(std::string key) {
+Palavra* VO::value(std::string key) {
     int lugarCerto = VO::search(key);
     if (vo[lugarCerto]->key == key)
-        return vo[lugarCerto]->value;
+        return vo[lugarCerto];
     return nullptr;
 }
 
-void VO::add(std::string key, Item value) {
+void VO::add(std::string key) {
     int lugarCerto = VO::search(key);
 
     if (vo.empty()) {
-        Palavra* p = new Palavra;
-        p->value = new Item;
-        p->key = key;
-        p->value->numOcorrencias = 1;
-        p->value->numLetras = value.numLetras;
-        p->value->numVogais = value.numVogais;
+        Palavra* p = new Palavra(key);
         vo.push_back(p);
         return;
     }
     // quando a palavra é maior que todas as outras,
     // lugarCerto é maior que o índice do último elemento.
     if (lugarCerto > (int)vo.size() - 1) {
-        Palavra* p = new Palavra;
-        p->value = new Item;
-        p->key = key;
-        p->value->numOcorrencias = 1;
-        p->value->numLetras = value.numLetras;
-        p->value->numVogais = value.numVogais;
+        Palavra* p = new Palavra(key);
         vo.insert(vo.end(), p);
         return;
     }
     if (vo[lugarCerto]->key == key) {
-        vo[lugarCerto]->value->numOcorrencias++;
+        vo[lugarCerto]->numOcorrencias++;
         return;
     }
     if (vo[lugarCerto]->key != key) {
-        Palavra* p = new Palavra;
-        p->value = new Item;
-        p->key = key;
-        p->value->numOcorrencias = 1;
-        p->value->numLetras = value.numLetras;
-        p->value->numVogais = value.numVogais;
+        Palavra* p = new Palavra(key);
         vo.insert(vo.begin() + lugarCerto, p);
         return;
     }
@@ -70,6 +55,8 @@ void VO::add(std::string key, Item value) {
 
 void VO::printVO() {
     for (unsigned int i = 0; i < vo.size(); i++) {
-        std::cout << vo[i]->key << " " << vo[i]->value->numOcorrencias << " " << vo[i]->value->numLetras << " " << vo[i]->value->numVogais << std::endl;
+        std::cout << vo[i]->key << " " << vo[i]->numOcorrencias << " "
+        << vo[i]->numLetras << " "
+        << vo[i]->numVogais << std::endl;
     }
 }
