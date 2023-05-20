@@ -1,4 +1,7 @@
-#include "../lib.h"
+#ifndef A23_H
+#define A23_H
+
+#include "lib.h"
 
 class NoA23 {
 public:
@@ -12,13 +15,9 @@ public:
         esq = mid = dir = nullptr;
         nKeys = 0;
     }
-    ~NoA23() {
-        free(value1); free(value2);
-        free(esq); free(mid); free(dir);
-    }
 };
-void printValue(NoA23* node, std::string key);
 
+void printValue(NoA23* node, std::string key);
 bool ehFolha(NoA23* r);
 
 class A23 {
@@ -34,5 +33,7 @@ public:
 
     void add(std::string key);
     NoA23* value(std::string key);
-    void prettyPrint();
+    void printA23();
 };
+
+#endif // A23_H

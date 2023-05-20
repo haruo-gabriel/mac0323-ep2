@@ -11,7 +11,7 @@ int main() {
         std::cin >> s;
         std::cout << std::endl;
         arn.add(s);
-        arn.prettyPrint();
+        arn.printARN();
         std::cout << std::endl;
         aux = arn.value(s);
         arn.printValue(aux);

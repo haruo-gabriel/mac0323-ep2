@@ -1,6 +1,10 @@
 #include "a23.h"
 
 void printValue(NoA23* node, std::string key) {
+	if (node == nullptr) {
+		std::cout << "Key not found." << std::endl;
+		return;
+	}
 	if (node->nKeys == 1) { // é 2no
 		std::cout << "Key: " << node->key1 << std::endl;
 		std::cout << "Value: " << node->value1->numOcorrencias << " ocorrências, ";
@@ -134,7 +138,7 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 					r->value2 = r->value1; r->value1 = aux->value1;
 					r->esq = aux->esq; r->mid = aux->mid;
 					r->nKeys = 2;
-					delete aux;
+					aux = nullptr;
 					*cresceu = false;
 					return r;
 				}
@@ -163,7 +167,8 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 					r->key2 = aux->key1; r->value2 = aux->value1;
 					r->mid = aux->esq; r->dir = aux->mid;
 					r->nKeys = 2;
-					delete aux;
+					// delete aux;
+					aux = nullptr;
 					*cresceu = false;
 					return r; 
 				}
@@ -242,7 +247,7 @@ NoA23* A23::value(std::string key) {
 }
 
 #include <queue>
-void A23::prettyPrint() {
+void A23::printA23() {
 	if (raiz == nullptr) {
 			std::cout << "2-3 Tree is empty." << std::endl;
 			return;

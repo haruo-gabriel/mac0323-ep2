@@ -12,11 +12,11 @@ main.out: main.cpp lib.cpp
 clean:
 	rm -f main.out 
 
-votest.out: lib.cpp vo/vo.cpp vo/votest.cpp
+votest.out: lib.cpp vo.cpp votest.cpp
 	$(CC) $(CFLAGS) $^ -o $@
 
 a23test.out: lib.cpp a23/a23.cpp a23/a23test.cpp
 	$(CC) $(CFLAGS) $^ -o $@
 
-arntest.out: lib.cpp arn/arn.cpp arn/arntest.cpp
+arntest.out: arn/arn.cpp arn/arntest.cpp
 	$(CC) $(CFLAGS) $^ -o $@

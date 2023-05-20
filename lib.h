@@ -1,3 +1,6 @@
+#ifndef LIB_H
+#define LIB_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -46,3 +49,5 @@ struct Palavra {
         this->numVogais = contaNumVogaisUnicas(key);
     }
 };
+
+#endif // LIB_H

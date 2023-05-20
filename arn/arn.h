@@ -221,7 +221,7 @@ public:
 	void add(std::string key);
 
 	// print the tree structure on the screen
-	void prettyPrint() {
+	void printARN() {
 	    if (raiz) {
     		printHelper(this->raiz, "", true);
 	    }
