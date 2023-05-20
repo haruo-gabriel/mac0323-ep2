@@ -6,23 +6,6 @@
 
 #define MAXKEYS 100000
 
-// struct Key {
-//     std::string key;
-// };
-
-// struct Item {
-//     int numOcorrencias;
-//     int numLetras;
-//     int numVogais; // número de vogais não-repetidas
-
-//     Item(std::string key) {
-//         this->numOcorrencias = 1;
-//         this->numLetras = contaNumLetras(key);
-//         this->numVogais = contaNumVogaisUnicas(key);
-//     }
-// };
-
-
 int contaNumLetras(const std::string& s);
 int contaNumVogaisUnicas(const std::string& s);
 std::vector<std::string> separaPalavras(unsigned int n);
@@ -31,6 +14,22 @@ std::vector<std::string> separaPalavras(unsigned int n);
 // std::string palavraMaisLonga(std::vector<Palavra*> palavras);
 // std::string palavraMaisLongaSemRepeticao(std::vector<Palavra*> palavras);
 // std::string palavraMaisCurtaMaisVogaisSemRepeticao(std::vector<Palavra*> palavras);
+
+// struct Key {
+//     std::string key;
+// };
+
+struct Item {
+    int numOcorrencias;
+    int numLetras;
+    int numVogais; // número de vogais não-repetidas
+
+    Item(std::string key) {
+        this->numOcorrencias = 1;
+        this->numLetras = contaNumLetras(key);
+        this->numVogais = contaNumVogaisUnicas(key);
+    }
+};
 
 struct Palavra {
     std::string key;

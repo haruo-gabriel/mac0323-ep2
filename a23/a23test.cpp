@@ -1,7 +1,6 @@
 #include "a23.h"
 
-int main()
-{
+int main() {
     driver();
     return 0;
 }

@@ -643,45 +643,142 @@ std::string A23::search (NoA23* r, std::string d) {
     }
 
     else
-        return "throwException";       //An exception has to be thrown here
+        return "throwException"; //An exception has to be thrown here
 }
 
+// Helper function to print spaces for indentation
+void printIndentation(int level) {
+    for (int i = 0; i < level; ++i) {
+        std::cout << "  "; // Two spaces for each level
+    }
+}
 
-//Wrapper Function
+// Recursive function to print a single node
+void printRecursive(NoA23* node, int level) {
+    printIndentation(level);
+
+    if (node->n == 1) {
+        std::cout << node->key1 << std::endl;
+    } else if (node->n == 2) {
+        std::cout << node->key1 << " " << node->key2 << std::endl;
+    }
+}
+
+// Recursive function to print the 2-3 tree
+void printTreeRecursive(NoA23* root, int level = 0) {
+    if (root != nullptr) {
+        printRecursive(root, level);
+
+        if (root->n == 1) {
+            printTreeRecursive(root->esq, level + 1);
+            printTreeRecursive(root->mid, level + 1);
+        } else if (root->n == 2) {
+            printTreeRecursive(root->esq, level + 1);
+            printTreeRecursive(root->mid, level + 1);
+            printTreeRecursive(root->dir, level + 1);
+        }
+    }
+}
+
+// Wrapper function to print the 2-3 tree
 void A23::printTree() {
-    std::cout << "\nThe tree is as follows :";
-    print(raiz);
+    std::cout << "The tree is as follows:" << std::endl;
+    if (raiz != nullptr) {
+        printTreeRecursive(raiz);
+    } else {
+        std::cout << "The tree is empty." << std::endl;
+    }
 }
 
-void A23::displayFunctions()
-{
+
+// // Wrapper Function
+// void A23::printTree() {
+//     std::cout << "\nThe tree is as follows :";
+//     if (raiz != NULL) {
+//         print(raiz);
+//     } else {
+//         std::cout << "\nThe tree is empty.";
+//     }
+// }
+
+// // Recursive Function
+// void A23::print(NoA23* r) {
+//     if (r != NULL) {
+//         if (r->n == 1) { // Two Node
+//             print(r->esq);
+//             std::cout << " " << r->key1;
+//             print(r->mid);
+//         } else { // Three Node
+//             print(r->esq);
+//             std::cout << " " << r->key1;
+//             print(r->mid);
+//             std::cout << " " << r->key2;
+//             print(r->dir);
+//         }
+//     }
+// }
+
+
+
+void A23::displayFunctions() {
     std::cout << "\n\n\nThis class 2 3 Tree has the following functionality : ";
     std::cout << "\n1)Insert \n2)Delete \n3)Search \n4)Print\n\n";
     std::cout << "\nEnter the option number. To exit, enter -1.\nOption Number : ";
 }
 
-//Recursive Function
-void A23::print (NoA23* r) {
-    if(r != NULL) {
-        if (r->n == 1)        //Two Node
-        {
-            print(r->esq);
-            std::cout << " "<< r->key1;
-            print(r->mid);
-        }
-
-        else                    //Three Node
-        {
-            print (r->esq);
-            std::cout << " "<< r->key1;
-            print (r->mid);
-            std::cout << " "<< r->key2;
-            print (r->dir);
-        }
-    }
-
-    else
-        std::cout << "\nThe tree is empty.";
+void clearInputBuffer() {
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 
+std::string getStringInput() {
+    std::string userInput;
+    std::getline(std::cin, userInput);
+    return userInput;
+}
+
+int getUserInput() {
+    int userInput;
+    while (!(std::cin >> userInput)) {
+    // while (!checkUserInput(userInput)) {
+        std::cout << "Invalid input. Please enter a valid integer." << std::endl;
+        clearInputBuffer();
+    }
+    clearInputBuffer();
+    return userInput;
+}
+
+void driver() {
+    A23 tree1;
+    int userInput = 0;
+    std::string data;
+
+    while (userInput != -1) {
+        tree1.displayFunctions();
+        userInput = getUserInput();
+
+        if (userInput == 1) {
+            std::cout << "Enter the data to be inserted into the tree: ";
+            data = getStringInput();
+            tree1.insert(data);
+            std::cout << "After insertion:" << std::endl;
+            tree1.printTree();
+        } else if (userInput == 2) {
+            std::cout << "Enter the data to be deleted from the tree: ";
+            data = getStringInput();
+            tree1.deleteNode(data);
+            std::cout << "After deletion:" << std::endl;
+            tree1.printTree();
+        } else if (userInput == 3) {
+            std::cout << "Enter the data element to search for: ";
+            data = getStringInput();
+            std::string result = tree1.searchFor(data);
+            std::cout << result << std::endl;
+        } else if (userInput == 4) {
+            tree1.printTree();
+        } else if (userInput != -1) {
+            std::cout << "Invalid input. Please enter a valid option." << std::endl;
+        }
+    }
+}

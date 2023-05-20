@@ -1,3 +1,4 @@
+#include <limits>
 #include <string>
 #include <iostream>
 
@@ -46,23 +47,18 @@ private:
 
 public:
     // Default Constructor
-    A23() {
-        raiz = NULL;
-    }
+    A23() { raiz = NULL; }
 
     // Destructor
-    ~A23()
-    {
-        if (raiz != NULL)                   //If tree is empty then do nothing.
+    ~A23() {
+        if (raiz != NULL) //If tree is empty then do nothing.
         {
             destroy(raiz);
         }
     }
     // Destroys Nodes
-    void destroy (NoA23 * r)
-    {
-        if (r != NULL)
-        {
+    void destroy (NoA23 * r) {
+        if (r != NULL) {
             destroy (r->esq);
             destroy (r->mid);
             destroy (r->dir);
@@ -72,7 +68,6 @@ public:
 
     /*------------------- Rotation Functions -------------------*/
     int isRotationPossible(NoA23* p, NoA23* r); // Tells if rotation is possible or not and if possible then which rotation (anti-clockwise or clockwise)
-
     AuxA23 rotateRight (NoA23* p, NoA23* r, std::string d, NoA23* filho);
     AuxA23 rotateLeft (NoA23* p, NoA23* r, std::string d, NoA23* filho);
 
@@ -80,11 +75,10 @@ public:
     //Main Insert Function
     //Wrapper Function
     bool insert(std::string d);
-
     //Recursive Function
     AuxA23 insert (NoA23* & r, std::string d, NoA23* p);
-    AuxA23 split3node (NoA23* current, std::string k, NoA23* filho);
 
+    AuxA23 split3node (NoA23* current, std::string k, NoA23* filho);
 
     /*------------------- Deletion Function -------------------*/
 
@@ -92,20 +86,15 @@ public:
     /*------------------- Merge Function -------------------*/
     AuxA23 merge(NoA23* p, NoA23* &r, NoA23* filho);
 
-
     //Main Wrapper Function
-    void deleteNode (std::string d)
-    {
+    void deleteNode (std::string d) {
         NoA23 * p = raiz;     //Parent pointer will be used for rotation and merging purposes
-
         Delete(raiz,d,p);
     }
 
-
     //Recursive Function
-    AuxA23 Delete(NoA23* r , std::string d, NoA23* p) {
-        if (r != NULL)                      //When Tree is empty, do nothing
-        {
+    AuxA23 Delete(NoA23* r , std::string d, NoA23* p) { 
+        if (r != NULL) { //When Tree is empty, do nothing
 
             /*---Cases---*/
 
@@ -351,61 +340,8 @@ public:
 
 };
 
-void driver() {
-    A23 tree1;
-    int userInput = 0;
-    std::string data;
-
-    while (userInput != -1) {
-        tree1.displayFunctions();
-        std::cin >> userInput;
-
-        if (userInput == 1) {
-            std::cout << "\nEnter the data to be inserted into the Tree : ";
-            std::cin  >> data;
-
-            tree1.insert(data);
-
-            std::cout << "\nAfter insertion :";
-            tree1.printTree();
-        }
-
-        else if (userInput == 2) {
-            std::cout << "\nEnter the data to be deleted from the Tree : ";
-            std::cin  >> data;
-
-            tree1.deleteNode(data);
-
-            std::cout << "\nAfter deletion :";
-            tree1.printTree();
-        }
-
-        else if (userInput == 3) {
-            std::cout << "\nEnter the data element which is to be searched : ";
-            std::cin  >> data;
-
-            if(tree1.searchFor(data) != "throwException")
-                std::cout << "\nThe element is found. ";
-            else
-                std::cout << "\nThe element is not found. ";
-        }
-
-        else if (userInput == 4) {
-            tree1.printTree();
-        }
-    }
-
-
-    /*
-    std::cout << "\nTesting the copy constructor :";
-   //A23<int> tree2 = tree1;
-
-    std::cout << "\nTree 2 is a copy of Tree 1 constructed through Copy Constructor.";
-
-    std::cout << "\nTree 1 : ";
-    //tree1.printTree();
-
-    std::cout << "\nTree 2 : ";
-    //tree2.printTree();
-    */
-}
+void clearInputBuffer();
+int getUserInput();
+std::string getStringInput();
+bool checkUserInput(int userInput);
+void driver();
