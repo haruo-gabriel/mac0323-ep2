@@ -45,22 +45,31 @@ std::vector<std::string> separaPalavras(unsigned int n) {
     std::vector<std::string> palavras;
     std::string input;
 
-    int wordCount = 0; // Counter variable for tracking the number of words read
+    unsigned int wordCount = 0;
 
     while (std::cin >> input && wordCount < n) {
         std::istringstream iss(input);
         std::string palavra;
         while (iss >> palavra) {
             std::string palavraFiltrada;
-            for (char c : palavra)
-                if (isalpha(c)) palavraFiltrada += c;
-            if (!palavraFiltrada.empty())
+
+            auto it_beginWord = palavra.begin();
+            while (!isalpha(*it_beginWord)){
+                it_beginWord++;
+                continue;
+            }
+            auto it_endWord = palavra.end();
+            while (!isalpha(*it_endWord)) {
+                it_endWord--;
+                continue;
+            }
+            
+            palavraFiltrada = std::string(it_beginWord, it_endWord+1);
+            if (!palavraFiltrada.empty()) {
                 palavras.push_back(palavraFiltrada);
-
-            ++wordCount; // Increment the word count after each word is processed
-
-            if (wordCount >= n) // Break out of the loop if the word count reaches or exceeds n
-                break;
+                wordCount++;
+            }
+            if (wordCount >= n) break;
         }
 
         if (wordCount >= n) // Break out of the loop if the word count reaches or exceeds n

@@ -1,18 +1,18 @@
 #include <iostream>
-#include "vo/vo.h"
+// #include "vo/vo.h"
+#include "lib.h"
 
 // main - 
 // vo - codado + testado
 // abb - codado + testado
 // tr - codado + testado
-// a23
+// a23 - codado + testado
 // arn - codado + testado
 
 
 int main() {
     std::string e, p;
-    char c;
-    unsigned int n, q;
+    unsigned int n;
     std::vector<std::string> palavras;
 
     std::cin >> e >> n;
@@ -22,17 +22,14 @@ int main() {
     std::cout << std::endl;
 
     if (e == "VO") {
-        // VO vo = VO();
         std::cout << "puta" << std::endl;
+        // VO vo = VO();
     }
     else if (e == "ABB"){
-
     }
     else if (e == "TR"){
-
     }
     else if (e == "A23"){
-
     }
     else if (e == "ARN"){
 

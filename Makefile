@@ -10,7 +10,7 @@ main.out: main.cpp lib.cpp
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-	rm -f main.out
+	rm -f main.out 
 
 votest.out: lib.cpp vo/vo.cpp vo/votest.cpp
 	$(CC) $(CFLAGS) $^ -o $@

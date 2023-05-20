@@ -1,5 +1,5 @@
 // main function to test the A23 class
-#include "a23eu.h"
+#include "a23.h"
 
 int main() {
     // test the add method
