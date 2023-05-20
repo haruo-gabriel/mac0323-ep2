@@ -9,6 +9,7 @@
 int contaNumLetras(const std::string& s);
 int contaNumVogaisUnicas(const std::string& s);
 std::vector<std::string> separaPalavras(unsigned int n);
+// void printValue(const Item& item);
 // std::string palavrasMaisFrequentes(std::vector<Palavra*> palavras);
 // int frequenciaPalavra(std::vector<Palavra*> palavras, std::string palavra);
 // std::string palavraMaisLonga(std::vector<Palavra*> palavras);

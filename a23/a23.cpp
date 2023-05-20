@@ -1,15 +1,37 @@
 #include "a23.h"
 
+void printValue(NoA23* node, std::string key) {
+	if (node->nKeys == 1) { // é 2no
+		std::cout << "Key: " << node->key1 << std::endl;
+		std::cout << "Value: " << node->value1->numOcorrencias << " ocorrências, ";
+		std::cout << node->value1->numLetras << " letras, ";
+		std::cout << node->value1->numVogais << " vogais únicas." << std::endl;
+	}
+	else { // é 3no
+		if (key == node->key1) {
+			std::cout << "Key: " << node->key1 << std::endl;
+			std::cout << "Value: " << node->value1->numOcorrencias << " ocorrências, ";
+			std::cout << node->value1->numLetras << " letras, ";
+			std::cout << node->value1->numVogais << " vogais únicas." << std::endl;
+		}
+		else {
+			std::cout << "Key: " << node->key2 << std::endl;
+			std::cout << "Value: " << node->value2->numOcorrencias << " ocorrências, ";
+			std::cout << node->value2->numLetras << " letras, ";
+			std::cout << node->value2->numVogais << " vogais únicas." << std::endl;
+		}
+	}
+}
+
+bool ehFolha(NoA23* r) {
+	return (r->nKeys >= 1 && r->esq == nullptr && r->mid == nullptr && r->dir == nullptr);
+}
+
 void A23::add(std::string key) {
 	bool* cresceu = new bool(false);
 	this->raiz = addHelper(this->raiz, key, cresceu);
 	delete cresceu;
 	return;
-}
-
-
-bool ehFolha(NoA23* r) {
-	return (r->nKeys >= 1 && r->esq == nullptr && r->mid == nullptr && r->dir == nullptr);
 }
 
 NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
@@ -196,81 +218,65 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 	} 
 }
 
-#include <queue>
-
-void A23::prettyPrint() {
-    if (raiz == nullptr) {
-        std::cout << "2-3 Tree is empty." << std::endl;
-        return;
-    }
-
-    std::cout << "2-3 Tree:" << std::endl;
-
-    std::queue<NoA23*> nodeQueue;
-    nodeQueue.push(raiz);
-
-    while (!nodeQueue.empty()) {
-        int levelSize = nodeQueue.size();
-
-        for (int i = 0; i < levelSize; i++) {
-            NoA23* node = nodeQueue.front();
-            nodeQueue.pop();
-
-            if (node->nKeys == 1) {
-                std::cout << node->key1 << " ";
-            } else if (node->nKeys == 2) {
-                std::cout << node->key1 << "-" << node->key2 << " ";
-            }
-
-            if (node->esq != nullptr) {
-                nodeQueue.push(node->esq);
-            }
-            if (node->mid != nullptr) {
-                nodeQueue.push(node->mid);
-            }
-            if (node->dir != nullptr) {
-                nodeQueue.push(node->dir);
-            }
-        }
-
-        std::cout << std::endl;
-    }
+NoA23* A23::valueHelper(NoA23* r, std::string key) {
+	if (r == nullptr) {
+		return nullptr;
+	}
+	else {
+		if (r->nKeys == 1) { // é 2no
+			if (r->key1 == key) return r;
+			else if (key < r->key1) return valueHelper(r->esq, key);
+			else return valueHelper(r->mid, key);
+		}
+		else { // é 3no
+			if (r->key1 == key || r->key2 == key) return r;
+			else if (key < r->key1) return valueHelper(r->esq, key);
+			else if (key > r->key1 && key < r->key2) return valueHelper(r->mid, key);
+			else return valueHelper(r->dir, key);
+		}
+	}
 }
 
-// void print_tree(NoA23* r, int level = 0) {
-// 		if (!r) {
-// 				return;
-// 		}
-// 		for (int i = 0; i < level; i++) {
-// 				std::cout << "    ";
-// 		}
-// 				std::cout << level << " - ";
-// 		if (r->nKeys == 2) {
-// 				std::cout << r->key1 << "-" << r->key2 << std::endl;
-// 		} else {
-// 				if(r->key1 != r->key2)
-// 						std::cout << "CU" << std::endl;
-// 				std::cout << r->key1 << std::endl;
-// 		}
+NoA23* A23::value(std::string key) {
+	return valueHelper(raiz, key);
+}
 
-// 		if (r->esq != nullptr) {
-// 				for (int i = 0; i <= level; i++) {
-// 						std::cout << "    ";
-// 				}
-// 				print_tree(r->esq, level + 1);
-// 		}
+#include <queue>
+void A23::prettyPrint() {
+	if (raiz == nullptr) {
+			std::cout << "2-3 Tree is empty." << std::endl;
+			return;
+	}
 
-// 		if (r->mid) {
-// 				for (int i = 0; i <= level; i++) {
-// 						std::cout << "    ";
-// 				}
-// 				print_tree(r->mid, level + 1);
-// 		}
+	std::cout << "2-3 Tree:" << std::endl;
 
-// 		if (r->dir) {
-// 				for (int i = 0; i <= level; i++) {
-// 						std::cout << "    ";
-// 				}
-// 				print_tree(r->dir, level + 1);
-// 		}
-// }
+	std::queue<NoA23*> nodeQueue;
+	nodeQueue.push(raiz);
+
+	while (!nodeQueue.empty()) {
+		int levelSize = nodeQueue.size();
+
+		for (int i = 0; i < levelSize; i++) {
+			NoA23* node = nodeQueue.front();
+			nodeQueue.pop();
+
+			if (node->nKeys == 1) {
+				std::cout << node->key1 << " ";
+			} else if (node->nKeys == 2) {
+				std::cout << node->key1 << "-" << node->key2 << " ";
+			}
+
+			if (node->esq != nullptr) {
+				nodeQueue.push(node->esq);
+			}
+			if (node->mid != nullptr) {
+				nodeQueue.push(node->mid);
+			}
+			if (node->dir != nullptr) {
+				nodeQueue.push(node->dir);
+			}
+		}
+
+		std::cout << std::endl;
+	}
+}

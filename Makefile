@@ -15,8 +15,8 @@ clean:
 votest.out: lib.cpp vo/vo.cpp vo/votest.cpp
 	$(CC) $(CFLAGS) $^ -o $@
 
-a23test.out: a23/a23.cpp a23/a23test.cpp
+a23test.out: lib.cpp a23/a23.cpp a23/a23test.cpp
 	$(CC) $(CFLAGS) $^ -o $@
 
-a23eutest.out: lib.cpp a23eu/a23eu.cpp a23eu/a23eutest.cpp
+arntest.out: lib.cpp arn/arn.cpp arn/arntest.cpp
 	$(CC) $(CFLAGS) $^ -o $@

@@ -13,34 +13,26 @@ public:
         nKeys = 0;
     }
     ~NoA23() {
-        value1 = value2 = nullptr; delete value1; delete value2;
-        esq = mid = dir = nullptr; delete esq; delete mid; delete dir;
+        free(value1); free(value2);
+        free(esq); free(mid); free(dir);
     }
 };
+void printValue(NoA23* node, std::string key);
 
 bool ehFolha(NoA23* r);
 
 class A23 {
 private:
-    // bool* cresceu;
-
     NoA23* addHelper(NoA23* raiz, std::string key, bool* cresceu);
+    NoA23* valueHelper(NoA23* r, std::string key);
     // void printHelper(NoA23* node, std::string indent, bool isLast);
 public:
     NoA23* raiz;
     A23() {
         raiz = nullptr;
-        // cresceu = new bool(false);
     }
 
-    // inserção
     void add(std::string key);
-
-    // busca
     NoA23* value(std::string key);
-
-    // auxiliares
     void prettyPrint();
 };
-
-// void print_tree(NoA23* r, int level = 0);

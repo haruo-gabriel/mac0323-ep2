@@ -4,10 +4,12 @@
 int main() {
     // test the add method
     A23 a23;
+    NoA23* aux;
 
     a23.add("d");
     a23.prettyPrint();
     std::cout << std::endl;
+    printValue(a23.value("d"), "d");
 
     a23.add("a");
     a23.prettyPrint();
@@ -29,7 +31,6 @@ int main() {
     a23.prettyPrint();
     std::cout << std::endl;
 
-    // dando pau - inserir em 3no com pai 3no
     a23.add("g");
     a23.prettyPrint();
     std::cout << std::endl;
