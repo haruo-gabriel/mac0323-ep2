@@ -19,11 +19,12 @@ std::vector<std::string> separaPalavras(unsigned int n);
 // std::string palavraMaisLongaSemRepeticao(std::vector<Palavra*> palavras);
 // std::string palavraMaisCurtaMaisVogaisSemRepeticao(std::vector<Palavra*> palavras);
 
-// struct Key {
-//     std::string key;
-// };
+struct Key {
+    std::string key;
+};
 
-struct Item {
+class Item {
+public:
     int numOcorrencias;
     int numLetras;
     int numVogais; // número de vogais não-repetidas

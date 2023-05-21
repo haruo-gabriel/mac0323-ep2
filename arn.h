@@ -1,4 +1,4 @@
-#include "../lib.h"
+#include "lib.h"
 class NoARN{
 public:
 	NoARN* pai; NoARN* esq; NoARN* dir;
@@ -227,13 +227,13 @@ public:
 	    }
 	}
 
-    // imprime as values de uma key
-    void printValue(NoARN* node) {
-        std::cout << "Key: " << node->key << std::endl;
-        std::cout << "Ocorrências: " << node->numOcorrencias << std::endl;
-        std::cout << "Número de letras: " << node->numLetras << std::endl;
-        std::cout << "Número de vogais não-repetidas: " << node->numVogaisUnicas << std::endl;
-    }
+	// imprime as values de uma key
+	void printValue(NoARN* node) {
+			std::cout << "Key: " << node->key << std::endl;
+			std::cout << "Ocorrências: " << node->numOcorrencias << std::endl;
+			std::cout << "Número de letras: " << node->numLetras << std::endl;
+			std::cout << "Número de vogais não-repetidas: " << node->numVogaisUnicas << std::endl;
+	}
 
 	// Pre-Order traversal
 	// Node->Left Subtree->Right Subtree

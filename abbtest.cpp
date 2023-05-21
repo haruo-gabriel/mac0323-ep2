@@ -7,33 +7,33 @@ int main() {
 
     // testing the add method
     // adding the word "A"
-    abb.add("A", new Item(numLetras("A"), numVogaisUnicas("A")));
-    abb.printABB(abb.raiz);
+    abb.add("A");
+    abb.printABB();
     std::cout << std::endl;
 
     // adding the word "B"
-    abb.add("B", new Item(numLetras("B"), numVogaisUnicas("B")));
-    abb.printABB(abb.raiz);
+    abb.add("B");
+    abb.printABB();
     std::cout << std::endl;
 
     // adding the word "AB"
-    abb.add("AB", new Item(numLetras("AB"), numVogaisUnicas("AB")));
-    abb.printABB(abb.raiz);
+    abb.add("AB");
+    abb.printABB();
     std::cout << std::endl;
 
     // adding the word "A" again
-    abb.add("A", new Item(numLetras("A"), numVogaisUnicas("A")));
-    abb.printABB(abb.raiz);
+    abb.add("A");
+    abb.printABB();
     std::cout << std::endl;
 
     // adding the word "a"
-    abb.add("a", new Item(numLetras("a"), numVogaisUnicas("a")));
-    abb.printABB(abb.raiz);
+    abb.add("a");
+    abb.printABB();
     std::cout << std::endl;
 
     // adding the word "AB" again
-    abb.add("AB", new Item(numLetras("AB"), numVogaisUnicas("AB")));
-    abb.printABB(abb.raiz);
+    abb.add("AB");
+    abb.printABB();
     std::cout << std::endl;
 
     // testing the value method

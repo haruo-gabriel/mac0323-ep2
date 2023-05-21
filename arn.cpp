@@ -152,6 +152,10 @@ void ARN::rotacionaDir(NoARN* x) {
     x->pai = y;
 }
 
+void ARN::printARN() {
+    if (raiz) printHelper(this->raiz, "", true);
+}
+
 void ARN::printHelper(NoARN* raiz, std::string indent, bool last) {
     // print the tree structure on the screen
     if (raiz != TNULL) {

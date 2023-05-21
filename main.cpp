@@ -1,7 +1,8 @@
 #include <iostream>
-// #include "vo/vo.h"
-#include "a23.h"
+#include "lib.h"
 #include "vo.h"
+#include "abb.h"
+#include "a23.h"
 
 // main - 
 // vo - codado + testado - talvez tenha que fazer de novo
@@ -33,9 +34,14 @@ int main() {
     }
     else if (e == "ABB"){
         std::cout << "Construindo ABB" << std::endl;
+        ABB abb = ABB();
+        for (const std::string &it : palavras)
+            abb.add(it);
+        abb.printABB();
     }
     else if (e == "TR"){
         std::cout << "Construindo TR" << std::endl;
+        
     }
     else if (e == "A23"){
         std::cout << "Construindo A23" << std::endl;
@@ -52,29 +58,29 @@ int main() {
     }
 
     // Consultas
-    std::cin >> q;
-    for (int i=0; i<q; i++) {
-        std::string consulta; std::cin >> consulta;
-        if (consulta == "F") {
+    // std::cin >> q;
+    // for (int i=0; i<q; i++) {
+    //     std::string consulta; std::cin >> consulta;
+    //     if (consulta == "F") {
 
-        }
-        else if (consulta == "O") {
-            std::string O_palavra; std::cin >> O_palavra;
-        }
-        else if (consulta == "L") {
+    //     }
+    //     else if (consulta == "O") {
+    //         std::string O_palavra; std::cin >> O_palavra;
+    //     }
+    //     else if (consulta == "L") {
 
-        }
-        else if (consulta == "SR") {
+    //     }
+    //     else if (consulta == "SR") {
 
-        }
-        else if (consulta == "VD") {
+    //     }
+    //     else if (consulta == "VD") {
 
-        }
-        else {
-            std::cout << "Consulta inválida. Tente novamente." << std::endl;
-            i--;
-        }
-    }
+    //     }
+    //     else {
+    //         std::cout << "Consulta inválida. Tente novamente." << std::endl;
+    //         i--;
+    //     }
+    // }
 
     return 0;
 }
