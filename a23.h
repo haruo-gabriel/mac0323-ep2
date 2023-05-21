@@ -25,6 +25,7 @@ private:
     NoA23* addHelper(NoA23* raiz, std::string key, bool* cresceu);
     NoA23* valueHelper(NoA23* r, std::string key);
     // void printHelper(NoA23* node, std::string indent, bool isLast);
+    void printInordemHelper(NoA23* r);
 public:
     NoA23* raiz;
     A23() {
@@ -34,6 +35,7 @@ public:
     void add(std::string key);
     NoA23* value(std::string key);
     void printA23();
+    void printInordem();
 };
 
 #endif // A23_H

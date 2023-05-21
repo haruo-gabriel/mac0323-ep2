@@ -1,0 +1,1 @@
+r < lorem500.txt

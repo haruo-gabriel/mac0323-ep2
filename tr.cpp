@@ -67,19 +67,23 @@ NoTR* TR::novoNoTR(std::string key) {
 	return temp;
 }
 
-void TR::inordem(NoTR* r) {
-	if (r) {
-		inordem(r->esq);
-		std::cout << "key: "<< r->key << " | prioridade: "
-			<< r->prioridade;
-		if (raiz->esq)
-			std::cout << " | filho esq: " << raiz->esq->key;
-		if (raiz->dir)
-			std::cout << " | filho dir: " << raiz->dir->key;
-		std::cout << std::endl;
-		inordem(raiz->dir);
+void TR::printInordem() {
+	printInordemHelper(this->raiz);
+}
+
+void TR::printInordemHelper(NoTR* r) {
+	if (r != nullptr) {
+		printInordemHelper(r->esq);
+
+		std::cout << std::left << std::setw(40) << r->key;
+		std::cout << " | Ocorrências: " << std::left << std::setw(4) << r->value->numOcorrencias;
+		std::cout << " | Letras: " << std::left << std::setw(2) << r->value->numLetras;
+		std::cout << " | Vogais: " << std::left << std::setw(1) << r->value->numVogais << std::endl;
+
+		printInordemHelper(r->dir);
 	}
 }
+
 
 void TR::printTR() {
 	if (raiz) printHelper(this->raiz, "", true); 

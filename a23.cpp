@@ -285,3 +285,24 @@ void A23::printA23() {
 		std::cout << std::endl;
 	}
 }
+
+void A23::printInordem() { printInordemHelper(this->raiz); }
+
+void A23::printInordemHelper(NoA23* r) {
+	if (r == nullptr) return;
+	else {
+		printInordemHelper(r->esq);
+		if (r->nKeys == 1) {
+			std::cout << std::left << std::setw(40) << r->key1;
+			std::cout << " | Ocorrências: " << std::left << std::setw(4) << r->value1->numOcorrencias;
+			std::cout << " | Letras: " << std::left << std::setw(2) << r->value1->numLetras;
+			std::cout << " | Vogais: " << std::left << std::setw(1) << r->value1->numVogais << std::endl;
+		} else if (r->nKeys == 2) {
+			std::cout << r->key1 << "-" << r->key2 << " ";
+		}
+		printInordemHelper(r->mid);
+		if (r->nKeys == 2) {
+			printInordemHelper(r->dir);
+		}
+	}
+}

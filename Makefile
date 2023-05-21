@@ -6,7 +6,7 @@ SRC_DIR := .
 
 all: main.out
 
-main.out: main.cpp lib.cpp vo.cpp abb.cpp a23.cpp
+main.out: main.cpp lib.cpp vo.cpp abb.cpp tr.cpp a23.cpp arn.cpp
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
@@ -21,8 +21,8 @@ abbtest.out: lib.cpp abb.cpp abbtest.cpp
 trtest.out: lib.cpp tr.cpp trtest.cpp
 	$(CC) $(CFLAGS) $^ -o $@
 
-a23test.out: lib.cpp a23/a23.cpp a23/a23test.cpp
+a23test.out: lib.cpp a23.cpp a23test.cpp
 	$(CC) $(CFLAGS) $^ -o $@
 
-arntest.out: arn/arn.cpp arn/arntest.cpp
+arntest.out: arn.cpp arntest.cpp
 	$(CC) $(CFLAGS) $^ -o $@

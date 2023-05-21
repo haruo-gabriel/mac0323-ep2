@@ -22,6 +22,8 @@ private:
     void rotacionaDireita(NoTR* &r);
     NoTR* novoNoTR(std::string key);
     void addHelper(NoTR* &r, std::string key);
+    void printHelper(NoTR* r, std::string indent, bool last);
+    void printInordemHelper(NoTR* r);
 public:
     TR() { raiz = nullptr; };
 
@@ -29,6 +31,6 @@ public:
     Item* value(std::string key);
     void inordem(NoTR* raiz);
     void printTR();
-    void printHelper(NoTR* r, std::string indent, bool last);
+    void printInordem();
     void printValue(Item* r);
 };

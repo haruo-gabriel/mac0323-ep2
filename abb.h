@@ -19,8 +19,11 @@ public:
 };
 
 class ABB {
-public:
+private:
     NoABB* raiz;
+    void printInordemHelper(NoABB* r);
+    void printHelper(NoABB* r, std::string indent, bool last);
+public:
     ABB() {
         raiz = nullptr;
     };
@@ -28,7 +31,7 @@ public:
     Item* value(std::string key);
     void add(std::string key);
     void printABB();
-    void printHelper(NoABB* r, std::string indent, bool last);
+    void printInordem();
 };
 
 #endif // ABB_H

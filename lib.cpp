@@ -78,3 +78,22 @@ std::vector<std::string> separaPalavras(unsigned int n) {
 
     return palavras;
 }
+
+// template <typename T>
+// void printInordem(<T> r) {
+// 	printInordemHelper(r);
+// }
+
+// template <typename T>
+// void printInordemHelper(<T> r) {
+// 	if (r != nullptr) {
+// 		printInordemHelper(r->esq);
+
+// 		std::cout << std::left << std::setw(40) << r->key;
+// 		std::cout << " | Ocorrências: " << std::left << std::setw(4) << r->value->numOcorrencias;
+// 		std::cout << " | Letras: " << std::left << std::setw(2) << r->value->numLetras;
+// 		std::cout << " | Vogais: " << std::left << std::setw(1) << r->value->numVogais << std::endl;
+
+// 		printInordemHelper(r->dir);
+// 	}
+// };

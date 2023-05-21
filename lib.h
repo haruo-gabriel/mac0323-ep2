@@ -2,6 +2,7 @@
 #define LIB_H
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 #include <fstream>

@@ -1,7 +1,3 @@
-// Como compilar e executar (deve estar no diretório vo):
-// g++ -Wall -g ../lib.cpp vo.cpp votest.cpp -o votest.out
-// ./votest.out
-
 #include "vo.h"
 
 // usando busca binária
@@ -54,9 +50,103 @@ void VO::add(std::string key) {
 }
 
 void VO::printVO() {
-    for (unsigned int i = 0; i < vo.size(); i++) {
-        std::cout << vo[i]->key << " " << vo[i]->numOcorrencias << " "
-        << vo[i]->numLetras << " "
-        << vo[i]->numVogais << std::endl;
+    for (unsigned long int i = 0; i < vo.size(); i++) {
+		std::cout << std::left << std::setw(40) << vo[i]->key;
+		std::cout << " | Ocorrências: " << std::left << std::setw(4) << vo[i]->numOcorrencias;
+		std::cout << " | Letras: " << std::left << std::setw(2) << vo[i]->numLetras;
+		std::cout << " | Vogais: " << std::left << std::setw(1) << vo[i]->numVogais << std::endl;
     }
+}
+
+
+// Consultas
+void VO::palavrasMaisFrequentes() {
+	std::vector<std::string> palavrasMaiorFrequencia;
+	int maiorFrequencia = 0;
+	for (unsigned long int i = 0; i < vo.size(); i++) {
+		if (vo[i]->numOcorrencias >= maiorFrequencia) {
+			if (vo[i]->numOcorrencias > maiorFrequencia) {
+				maiorFrequencia = vo[i]->numOcorrencias;
+				palavrasMaiorFrequencia.clear();
+			}
+			palavrasMaiorFrequencia.push_back(vo[i]->key);
+		}
+	}
+	for (auto it : palavrasMaiorFrequencia) std::cout << it << " ";
+	std::cout << std::endl;
+}
+
+int VO::frequenciaPalavra(std::string key) {
+	return value(key)->numOcorrencias;
+}
+
+void VO::palavrasMaisLongas() {
+	std::vector<std::string> palavrasMaisLongas;
+	int maiorTamanho = 0;
+	for (unsigned long int i = 0; i < vo.size(); i++) {
+		if (vo[i]->numLetras >= maiorTamanho) {
+			if (vo[i]->numLetras > maiorTamanho) {
+				maiorTamanho = vo[i]->numLetras;
+				palavrasMaisLongas.clear();
+			}
+			palavrasMaisLongas.push_back(vo[i]->key);
+		}
+	}
+	for (auto it : palavrasMaisLongas) std::cout << it << " ";
+	std::cout << std::endl;
+}
+
+bool VO::repeteLetras(std::string key) {
+	std::vector<char> letras;
+	for (auto it : key) {
+		for (auto it2 : letras) {
+			if (it == it2) return true;
+		}
+		letras.push_back(it);
+	}
+	return false;
+}
+void VO::maioresPalavrasSemRepeticaoLetras() {
+	std::vector<std::string> maioresPalavrasSemRepeticaoLetras;
+	int maiorTamanho = 0;
+	for (unsigned long int i = 0; i < vo.size(); i++) {
+		if (vo[i]->numLetras >= maiorTamanho && !repeteLetras(vo[i]->key)) {
+			if (vo[i]->numLetras > maiorTamanho) {
+				maiorTamanho = vo[i]->numLetras;
+				maioresPalavrasSemRepeticaoLetras.clear();
+			}
+			maioresPalavrasSemRepeticaoLetras.push_back(vo[i]->key);
+		}
+	}
+	for (auto it : maioresPalavrasSemRepeticaoLetras) std::cout << it << " ";
+	std::cout << std::endl;
+}
+
+bool VO::repeteVogais(std::string key) {
+	std::vector<char> vogais;
+	for (auto it : key) {
+		if (it == 'a' || it == 'e' || it == 'i' || it == 'o' || it == 'u'
+		 || it == 'A' || it == 'E' || it == 'I' || it == 'O' || it == 'U') {
+			for (auto it2 : vogais) {
+				if (it == it2) return true;
+			}
+			vogais.push_back(it);
+		}
+	}
+	return false;
+}
+void VO::menoresPalavrasSemRepeticaoVogais() {
+	std::vector<std::string> menoresPalavrasSemRepeticaoVogais;
+	int menorTamanho = 100;
+	for (unsigned long int i = 0; i < vo.size(); i++) {
+		if (vo[i]->numLetras <= menorTamanho && !repeteVogais(vo[i]->key)) {
+			if (vo[i]->numLetras < menorTamanho) {
+				menorTamanho = vo[i]->numLetras;
+				menoresPalavrasSemRepeticaoVogais.clear();
+			}
+			menoresPalavrasSemRepeticaoVogais.push_back(vo[i]->key);
+		}
+	}
+	for (auto it : menoresPalavrasSemRepeticaoVogais) std::cout << it << " ";
+	std::cout << std::endl;
 }
