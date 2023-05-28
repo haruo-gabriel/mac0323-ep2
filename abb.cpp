@@ -64,7 +64,6 @@ void ABB::printHelper(NoABB* r, std::string indent, bool last) {
 }
 
 void ABB::printInordem() { printInordemHelper(raiz); }
-
 void ABB::printInordemHelper(NoABB* r) {
 	if (r != nullptr) {
 		printInordemHelper(r->esq);

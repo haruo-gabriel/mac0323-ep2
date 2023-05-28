@@ -125,11 +125,26 @@ int main() {
 	else if (e == "ARN"){
 		std::cout << "Construindo ARN" << std::endl;
 		ARN arn = ARN();
-		for (const std::string &it : palavras)
-			arn.add(it);
-		arn.printARN();
-		// arn.printInordem();
-		//
+		for (const std::string &it : palavras) arn.add(it);
+		// arn.printARN();
+		arn.printInordem();
+		// Consultas
+		std::cin >> q;
+		for (int i=0; i<q; i++) {
+			std::string consulta; std::cin >> consulta;
+			if (consulta == "F") arn.palavrasMaisFrequentes();
+			else if (consulta == "O") {
+				std::string p; std::cin >> p;
+				std::cout << arn.frequenciaPalavra(p) << std::endl;
+			}
+			else if (consulta == "L") arn.palavrasMaisLongas();
+			else if (consulta == "SR") arn.maioresPalavrasSemRepeticaoLetras();
+			else if (consulta == "VD") arn.menoresPalavrasSemRepeticaoVogais();
+			else {
+				std::cout << "Consulta inválida. Tente novamente." << std::endl;
+				// i--;
+			}
+		}
 	}
 	else {
 		std::cout << "Estrutura invalida" << std::endl;
