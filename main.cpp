@@ -14,18 +14,18 @@ int main() {
 	// Entradas
 	std::cin >> e >> n;
 	palavras = separaPalavras(n);
-	for (const std::string& it : palavras) std::cout << it << " ";
-	std::cout << std::endl << std::endl;
+	// imprime entrada
+	// for (const std::string& it : palavras) std::cout << it << " ";
+	// std::cout << std::endl << std::endl;
 
 	// Estruturas
 	// VO
 	if (e == "VO") {
-		std::cout << "Construindo VO" << std::endl;
+		// std::cout << "Construindo VO" << std::endl;
 		VO vo = VO();
 		for (const std::string &it : palavras) vo.add(it);
-		vo.printVO(); std::cout << std::endl;
+		// vo.printVO(); std::cout << std::endl;
 		// Consultas
-		// std::cin.clear();
 		std::cin >> q;
 		for (int i=0; i<q; i++) {
 			std::string consulta; std::cin >> consulta;
@@ -45,12 +45,11 @@ int main() {
 	}
 	// ABB
 	else if (e == "ABB"){
-		std::cout << "Construindo ABB" << std::endl;
+		// std::cout << "Construindo ABB" << std::endl;
 		ABB abb = ABB();
-		for (const std::string &it : palavras)
-			abb.add(it);
+		for (const std::string &it : palavras) abb.add(it);
 		// abb.printABB();
-		abb.printInordem();
+		// abb.printInordem();
 		// Consultas
 		std::cin >> q;
 		for (int i=0; i<q; i++) {
@@ -71,12 +70,11 @@ int main() {
 	}
 	// TR
 	else if (e == "TR"){
-		std::cout << "Construindo TR" << std::endl;
+		// std::cout << "Construindo TR" << std::endl;
 		TR tr = TR();
-		for (const std::string &it : palavras)
-			tr.add(it);
+		for (const std::string &it : palavras) tr.add(it);
 		// tr.printTR();
-		tr.printInordem();
+		// tr.printInordem();
 		// Consultas
 		std::cin >> q;
 		for (int i=0; i<q; i++) {
@@ -90,19 +88,17 @@ int main() {
 			else if (consulta == "SR") tr.maioresPalavrasSemRepeticaoLetras();
 			else if (consulta == "VD") tr.menoresPalavrasSemRepeticaoVogais();
 			else {
-				std::cout << "Consulta inválida. Tente novamente." << std::endl;
+				// std::cout << "Consulta inválida. Tente novamente." << std::endl;
 				// i--;
 			}
 		}
 	}
 	// A23
 	else if (e == "A23") {
-		std::cout << "Construindo A23" << std::endl;
+		// std::cout << "Construindo A23" << std::endl;
 		A23 a23 = A23();
-		for (const std::string& it : palavras) {
-			std::cout << "Adicionando " << it << std::endl << std::endl; a23.add(it); a23.printA23(); std::cout << std::endl;
-		}
-		a23.printInordem();
+		for (const std::string& it : palavras) a23.add(it);
+		// a23.printInordem();
 		// Consultas
 		std::cin >> q;
 		for (int i=0; i<q; i++) {
@@ -116,18 +112,18 @@ int main() {
 			else if (consulta == "SR") a23.maioresPalavrasSemRepeticaoLetras();
 			else if (consulta == "VD") a23.menoresPalavrasSemRepeticaoVogais();
 			else {
-				std::cout << "Consulta inválida. Tente novamente." << std::endl;
+				// std::cout << "Consulta inválida. Tente novamente." << std::endl;
 				// i--;
 			}
 		}
 	}
 	// ARN
 	else if (e == "ARN"){
-		std::cout << "Construindo ARN" << std::endl;
+		// std::cout << "Construindo ARN" << std::endl;
 		ARN arn = ARN();
 		for (const std::string &it : palavras) arn.add(it);
 		// arn.printARN();
-		arn.printInordem();
+		// arn.printInordem();
 		// Consultas
 		std::cin >> q;
 		for (int i=0; i<q; i++) {
@@ -141,13 +137,13 @@ int main() {
 			else if (consulta == "SR") arn.maioresPalavrasSemRepeticaoLetras();
 			else if (consulta == "VD") arn.menoresPalavrasSemRepeticaoVogais();
 			else {
-				std::cout << "Consulta inválida. Tente novamente." << std::endl;
+				// std::cout << "Consulta inválida. Tente novamente." << std::endl;
 				// i--;
 			}
 		}
 	}
 	else {
-		std::cout << "Estrutura invalida" << std::endl;
+		// std::cout << "Estrutura invalida" << std::endl;
 	}
 
 
