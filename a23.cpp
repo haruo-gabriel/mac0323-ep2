@@ -37,7 +37,6 @@ void A23::add(std::string key) {
 	delete cresceu;
 	return;
 }
-
 NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 	if (r == nullptr) {
 		r = new NoA23(); r->key1 = key; r->nKeys = 1;
@@ -72,25 +71,30 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 				r->value1->numOcorrencias++;
 				*cresceu = false;
 				return r;
-			} else if (key == r->key2) {
+			}
+			else if (key == r->key2) {
 				r->value2->numOcorrencias++;
 				*cresceu = false;
 				return r;
-
+			} 
 			// se key não está na árvore
-			} else if (key < r->key1) { // se key é menor que key1 da raiz
+			else if (key < r->key1) { // se key é menor que key1 da raiz
 				// split
 				NoA23* menor = new NoA23(); 
-				menor->key1 = key; menor->value1 = new Item(key); menor->nKeys = 1;
+				menor->key1 = key; menor->value1 = new Item(key);
+				menor->nKeys = 1;
 				NoA23* maior = new NoA23();
-				maior->key1 = r->key2; maior->value1 = r->value2; maior->nKeys = 1;
+				maior->key1 = r->key2; maior->value1 = r->value2;
+				maior->nKeys = 1;
 
 				// atualiza raiz
-				r->key2 = ""; r->value2 = nullptr; r->nKeys = 1;
+				r->key2 = ""; r->value2 = nullptr;
+				r->nKeys = 1;
 				r->esq = menor; r->mid = maior; r->dir = nullptr;
 				*cresceu = true;
 				return r;
-			} else if (key > r->key1 && key < r->key2) { // se key está entre key1 e key2
+			}
+			else if (key > r->key1 && key < r->key2) { // se key está entre key1 e key2
 				// split
 				NoA23* menor = new NoA23();
 				menor->key1 = r->key1; menor->value1 = r->value1;
@@ -110,9 +114,11 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 			else { // se key é maior que key2
 				// split
 				NoA23* menor = new NoA23();
-				menor->key1 = r->key1; menor->value1 = r->value1; menor->nKeys = 1;
+				menor->key1 = r->key1; menor->value1 = r->value1;
+				menor->nKeys = 1;
 				NoA23* maior = new NoA23();
-				maior->key1 = key; maior->value1 = new Item(key); maior->nKeys = 1;
+				maior->key1 = key; maior->value1 = new Item(key);
+				maior->nKeys = 1;
 
 				// atualiza raiz
 				r->key1 = r->key2; r->value1 = r->value2;
@@ -125,7 +131,12 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 		}
 	}
 	else { // não é folha
-		if (key < r->key1) { // key é menor que a menor key de r
+		if (key == r->key1) {
+			r->value1->numOcorrencias++;
+			*cresceu = false;
+			return r;
+		}
+		else if (key < r->key1) { // key é menor que a key1 de r
 			NoA23* aux = addHelper(r->esq, key, cresceu); // chama addHelper recursivo para a subarvore esquerda
 			if (! *cresceu) {
 				r->esq = aux;
@@ -145,9 +156,13 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 				else { // é 3no
 					// merge
 					NoA23* menor = new NoA23();
-					menor->key1 = aux->key1; menor->value1 = aux->value1; menor->nKeys = 1;
+					menor->key1 = aux->key1; menor->value1 = aux->value1;
+					menor->nKeys = 1;
+					menor->esq = aux->esq; menor->mid = aux->mid;
 					NoA23* maior = new NoA23();
-					maior->key1 = r->key2; maior->value1 = r->value2; maior->nKeys = 1;
+					maior->key1 = r->key2; maior->value1 = r->value2;
+					maior->nKeys = 1;
+					maior->esq = r->mid; maior->mid = r->dir;
 
 					// atualiza raiz
 					r->key2 = ""; r->value2 = nullptr; r->nKeys = 1;
@@ -157,16 +172,17 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 				}
 			}
 		}
-		else { // key é maior que a menor key de r
+		else { // key é maior que a key1 de r
 			if (r->nKeys == 1) { // é 2no
 				NoA23* aux = addHelper(r->mid, key, cresceu); // chama addHelper recursivo para a subarvore do meio
 				if (! *cresceu) {
 					r->mid = aux;
 					return r;
-				} else {
+				}
+				else {
 					r->key2 = aux->key1; r->value2 = aux->value1;
-					r->mid = aux->esq; r->dir = aux->mid;
 					r->nKeys = 2;
+					r->mid = aux->esq; r->dir = aux->mid;
 					// delete aux;
 					aux = nullptr;
 					*cresceu = false;
@@ -174,7 +190,12 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 				}
 			}
 			else { // é 3no
-				if (key > r->key2) { // se key é maior que a maior key de r
+				if (key == r->key2) {
+					r->value2->numOcorrencias++;
+					*cresceu = false;
+					return r;
+				}
+				else if (key > r->key2) { // se key é maior que a maior key de r
 					NoA23* aux = addHelper(r->dir, key, cresceu); // chama addHelper recursivo para a subarvore direita
 					if (! *cresceu) {
 						r->dir = aux;
@@ -183,11 +204,13 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 					else {
 						// split
 						NoA23* menor = new NoA23();
-						menor->key1 = r->key1; menor->value1 = r->value1; menor->nKeys = 1;
+						menor->key1 = r->key1; menor->value1 = r->value1;
+						menor->nKeys = 1;
 						menor->esq = r->esq; menor->mid = r->mid; menor->dir = nullptr;
 						NoA23* maior = new NoA23();
 						// maior->key1 = r->key2; maior->value1 = r->value2; maior->nKeys = 1;
-						maior->key1 = aux->key1; maior->value1 = aux->value1; maior->nKeys = 1;
+						maior->key1 = aux->key1; maior->value1 = aux->value1;
+						maior->nKeys = 1;
 						maior->esq = aux->esq; maior->mid = aux->mid; maior->dir = nullptr;
 
 						// atualiza raiz
@@ -199,20 +222,27 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 						return r;
 					}
 				}
-				else { // se key é maior que a menor key de r e menor que a maior key de r
+				else { // se key está entre as duas keys de r
 					NoA23* aux = addHelper(r->mid, key, cresceu); // chama addHelper recursivo para a subarvore do meio
-					if (! *cresceu) {
+					if (! *cresceu){
 						r->mid = aux;
 						return r;
-					} else {
-						// split
+					}
+					else {
+						// merge
 						NoA23* menor = new NoA23();
-						menor->key1 = r->key1; menor->value1 = r->value1; menor->nKeys = 1;
+						menor->key1 = r->key1; menor->value1 = r->value1;
+						menor->nKeys = 1;
+						menor->esq = r->esq; menor->mid = aux->esq; menor->dir = nullptr;
 						NoA23* maior = new NoA23();
-						maior->key1 = r->key2; maior->value1 = r->value2; maior->nKeys = 1;
+						maior->key1 = r->key2; maior->value1 = r->value2;
+						maior->nKeys = 1;
+						maior->esq = aux->mid; maior->mid = r->dir; maior->dir = nullptr;
 
 						// atualiza raiz
-						r->key1 = aux->key1; r->value1 = aux->value1; r->nKeys = 1;
+						r->key1 = aux->key1; r->value1 = aux->value1;
+						r->key2 = ""; r->value2 = nullptr;
+						r->nKeys = 1;
 						r->esq = menor; r->mid = maior; r->dir = nullptr;
 						*cresceu = true;
 						return r;
@@ -223,6 +253,10 @@ NoA23* A23::addHelper(NoA23* r, std::string key, bool* cresceu) {
 	} 
 }
 
+
+NoA23* A23::value(std::string key) {
+	return valueHelper(raiz, key);
+}
 NoA23* A23::valueHelper(NoA23* r, std::string key) {
 	if (r == nullptr) {
 		return nullptr;
@@ -240,10 +274,6 @@ NoA23* A23::valueHelper(NoA23* r, std::string key) {
 			else return valueHelper(r->dir, key);
 		}
 	}
-}
-
-NoA23* A23::value(std::string key) {
-	return valueHelper(raiz, key);
 }
 
 #include <queue>
@@ -287,22 +317,185 @@ void A23::printA23() {
 }
 
 void A23::printInordem() { printInordemHelper(this->raiz); }
-
 void A23::printInordemHelper(NoA23* r) {
 	if (r == nullptr) return;
 	else {
 		printInordemHelper(r->esq);
-		if (r->nKeys == 1) {
-			std::cout << std::left << std::setw(40) << r->key1;
-			std::cout << " | Ocorrências: " << std::left << std::setw(4) << r->value1->numOcorrencias;
-			std::cout << " | Letras: " << std::left << std::setw(2) << r->value1->numLetras;
-			std::cout << " | Vogais: " << std::left << std::setw(1) << r->value1->numVogais << std::endl;
-		} else if (r->nKeys == 2) {
-			std::cout << r->key1 << "-" << r->key2 << " ";
-		}
+
+		std::cout << std::left << std::setw(40) << r->key1;
+		std::cout << " | Ocorrências: " << std::left << std::setw(4) << r->value1->numOcorrencias;
+		std::cout << " | Letras: " << std::left << std::setw(2) << r->value1->numLetras;
+		std::cout << " | Vogais: " << std::left << std::setw(1) << r->value1->numVogais << std::endl;
+
 		printInordemHelper(r->mid);
+
 		if (r->nKeys == 2) {
+			std::cout << std::left << std::setw(40) << r->key2;
+			std::cout << " | Ocorrências: " << std::left << std::setw(4) << r->value2->numOcorrencias;
+			std::cout << " | Letras: " << std::left << std::setw(2) << r->value2->numLetras;
+			std::cout << " | Vogais: " << std::left << std::setw(1) << r->value2->numVogais << std::endl;
+
 			printInordemHelper(r->dir);
 		}
 	}
+}
+
+// Consultas
+void A23::palavrasMaisFrequentes() {
+	int maiorFreq = 0;
+	std::vector<std::string> maiores;
+	maiores = palavrasMaisFrequentesHelper(raiz, maiorFreq, maiores);
+	for (const auto& p : maiores) std::cout << p << " ";
+	std::cout << std::endl;
+}
+std::vector<std::string> A23::palavrasMaisFrequentesHelper(NoA23* r, int &maiorFreq, std::vector<std::string> maiores) {
+	if (r == nullptr) return maiores;
+	else {
+		maiores = palavrasMaisFrequentesHelper(r->esq, maiorFreq, maiores);
+
+		if (r->value1->numOcorrencias >= maiorFreq) {
+			if (r->value1->numOcorrencias > maiorFreq) {
+				maiores.clear();
+				maiorFreq = r->value1->numOcorrencias;
+			}
+			maiores.push_back(r->key1);
+		}
+
+		maiores = palavrasMaisFrequentesHelper(r->mid, maiorFreq, maiores);
+
+		if (r->nKeys == 2) {
+			if (r->value2->numOcorrencias >= maiorFreq) {
+				if (r->value2->numOcorrencias > maiorFreq) {
+					maiores.clear();
+					maiorFreq = r->value2->numOcorrencias;
+				}
+				maiores.push_back(r->key2);
+			}
+
+			maiores = palavrasMaisFrequentesHelper(r->dir, maiorFreq, maiores);
+		}
+	}
+	return maiores;
+}
+
+int A23::frequenciaPalavra(std::string key) {
+	NoA23* aux = value(key);
+	if (aux == nullptr) return 0;
+	else if (aux->key1 == key) return aux->value1->numOcorrencias;
+	else return aux->value2->numOcorrencias;
+}
+
+void A23::palavrasMaisLongas() {
+	int maiorTam = 0;
+	std::vector<std::string> maiores;
+	maiores = palavrasMaisLongasHelper(raiz, maiorTam, maiores);
+	for (const auto& p : maiores) std::cout << p << " ";
+	std::cout << std::endl;
+}
+std::vector<std::string> A23::palavrasMaisLongasHelper(NoA23* r, int &maiorTam, std::vector<std::string> maiores) {
+	if (r == nullptr) return maiores;
+	else {
+		maiores = palavrasMaisLongasHelper(r->esq, maiorTam, maiores);
+
+		if (r->value1->numLetras >= maiorTam) {
+			if (r->value1->numLetras > maiorTam) {
+				maiores.clear();
+				maiorTam = r->value1->numLetras;
+			}
+			maiores.push_back(r->key1);
+		}
+
+		maiores = palavrasMaisLongasHelper(r->mid, maiorTam, maiores);
+
+		if (r->nKeys == 2) {
+			if (r->value2->numLetras >= maiorTam) {
+				if (r->value2->numLetras > maiorTam) {
+					maiores.clear();
+					maiorTam = r->value2->numLetras;
+				}
+				maiores.push_back(r->key2);
+			}
+
+			maiores = palavrasMaisLongasHelper(r->dir, maiorTam, maiores);
+		}
+	}
+	
+	return maiores;	
+}
+
+void A23::maioresPalavrasSemRepeticaoLetras() {
+	int maiorTam = 0;
+	std::vector<std::string> maiores;
+	maiores = maioresPalavrasSemRepeticaoLetrasHelper(this->raiz, maiorTam, maiores);
+	for (const auto& p : maiores) std::cout << p << " ";
+	std::cout << std::endl;
+}
+std::vector<std::string> A23::maioresPalavrasSemRepeticaoLetrasHelper(NoA23* r, int &maiorTam, std::vector<std::string> maiores) {
+	if (r == nullptr) return maiores;
+	else {
+		maiores = maioresPalavrasSemRepeticaoLetrasHelper(r->esq, maiorTam, maiores);
+
+		if (r->value1->numLetras >= maiorTam && !repeteLetras(r->key1)) {
+			if (r->value1->numLetras > maiorTam) {
+				maiores.clear();
+				maiorTam = r->value1->numLetras;
+			}
+			maiores.push_back(r->key1);
+		}
+
+		maiores = maioresPalavrasSemRepeticaoLetrasHelper(r->mid, maiorTam, maiores);
+
+		if (r->nKeys == 2) {
+			if (r->value2->numLetras >= maiorTam && !repeteLetras(r->key2)) {
+				if (r->value2->numLetras > maiorTam) {
+					maiores.clear();
+					maiorTam = r->value2->numLetras;
+				}
+				maiores.push_back(r->key2);
+			}
+
+			maiores = maioresPalavrasSemRepeticaoLetrasHelper(r->dir, maiorTam, maiores);
+		}
+	}
+	
+	return maiores;	
+}
+
+
+void A23::menoresPalavrasSemRepeticaoVogais() {
+	int menorTam = 100;
+	std::vector<std::string> menores;
+	menores = menoresPalavrasSemRepeticaoVogaisHelper(raiz, menorTam, menores);
+	for (const auto& p : menores) std::cout << p << " ";
+	std::cout << std::endl;
+}
+std::vector<std::string> A23::menoresPalavrasSemRepeticaoVogaisHelper(NoA23* r, int &menorTam, std::vector<std::string> menores) {
+	if (r == nullptr) return menores;
+	else {
+		menores = menoresPalavrasSemRepeticaoVogaisHelper(r->esq, menorTam, menores);
+
+		if (r->value1->numLetras <= menorTam && !repeteVogais(r->key1)) {
+			if (r->value1->numLetras < menorTam) {
+				menores.clear();
+				menorTam = r->value1->numLetras;
+			}
+			menores.push_back(r->key1);
+		}
+
+		menores = menoresPalavrasSemRepeticaoVogaisHelper(r->mid, menorTam, menores);
+
+		if (r->nKeys == 2) {
+			if (r->value2->numLetras <= menorTam && !repeteVogais(r->key2)) {
+				if (r->value2->numLetras < menorTam) {
+					menores.clear();
+					menorTam = r->value2->numLetras;
+				}
+				menores.push_back(r->key2);
+			}
+
+			menores = menoresPalavrasSemRepeticaoVogaisHelper(r->dir, menorTam, menores);
+		}
+	}
+	
+	return menores;	
 }

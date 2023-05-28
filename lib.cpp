@@ -79,6 +79,29 @@ std::vector<std::string> separaPalavras(unsigned int n) {
     return palavras;
 }
 
+bool repeteVogais(std::string key) {
+	std::vector<char> vogais;
+	for (auto it : key) {
+		if (it == 'a' || it == 'e' || it == 'i' || it == 'o' || it == 'u'
+		 || it == 'A' || it == 'E' || it == 'I' || it == 'O' || it == 'U') {
+			for (auto it2 : vogais) {
+				if (it == it2) return true;
+			}
+			vogais.push_back(it);
+		}
+	}
+	return false;
+}
+bool repeteLetras(std::string key) {
+	std::vector<char> letras;
+	for (auto it : key) {
+		for (auto it2 : letras) {
+			if (it == it2) return true;
+		}
+		letras.push_back(it);
+	}
+	return false;
+}
 // template <typename T>
 // void printInordem(<T> r) {
 // 	printInordemHelper(r);

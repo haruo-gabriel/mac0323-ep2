@@ -2,10 +2,9 @@
 #define VO_H
 
 #include "lib.h"
+
 class VO {
-private:
-    bool repeteLetras(std::string key);
-    bool repeteVogais(std::string key);
+// private:
 public:
     std::vector<Palavra*> vo; // vetor ordenado por ordem alfabética
 

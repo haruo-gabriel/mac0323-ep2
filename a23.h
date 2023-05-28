@@ -26,16 +26,25 @@ private:
     NoA23* valueHelper(NoA23* r, std::string key);
     // void printHelper(NoA23* node, std::string indent, bool isLast);
     void printInordemHelper(NoA23* r);
+
+	std::vector<std::string> palavrasMaisFrequentesHelper(NoA23* r, int &maiorFreq, std::vector<std::string> maiores);
+	std::vector<std::string> palavrasMaisLongasHelper(NoA23* r, int &maiorTam, std::vector<std::string> maiores);
+	std::vector<std::string> maioresPalavrasSemRepeticaoLetrasHelper(NoA23* r, int &maiorTam, std::vector<std::string> maiores);
+	std::vector<std::string> menoresPalavrasSemRepeticaoVogaisHelper(NoA23* r, int &menorTam, std::vector<std::string> menores);
 public:
     NoA23* raiz;
-    A23() {
-        raiz = nullptr;
-    }
+    A23() { raiz = nullptr; }
 
     void add(std::string key);
     NoA23* value(std::string key);
     void printA23();
     void printInordem();
+ 
+	void palavrasMaisFrequentes();
+	int frequenciaPalavra(std::string key);
+	void palavrasMaisLongas();
+	void maioresPalavrasSemRepeticaoLetras();
+	void menoresPalavrasSemRepeticaoVogais();
 };
 
 #endif // A23_H

@@ -106,3 +106,113 @@ void TR::printHelper(NoTR* r, std::string indent, bool last) {
 	}
 	// cout<<raiz->esq->key<<endl;
 }
+
+
+// Consultas
+void TR::palavrasMaisFrequentes() {
+	int maiorFreq = 0;
+	std::vector<NoTR*> maiores;
+	maiores = palavrasMaisFrequentesHelper(raiz, maiorFreq, maiores);
+	for (const auto& p : maiores) std::cout << p->key << " ";
+	std::cout << std::endl;
+}
+std::vector<NoTR*> TR::palavrasMaisFrequentesHelper(NoTR* r, int &maiorFreq, std::vector<NoTR*> maiores) {
+	if (r == nullptr) return maiores;
+
+	maiores = palavrasMaisFrequentesHelper(r->esq, maiorFreq, maiores);
+	
+	if (r->value->numOcorrencias > maiorFreq) {
+		maiores.clear();
+		maiores.push_back(r);
+		maiorFreq = r->value->numOcorrencias;
+	}
+	else if (r->value->numOcorrencias == maiorFreq) {
+		maiores.push_back(r);
+	}
+
+	maiores = palavrasMaisFrequentesHelper(r->dir, maiorFreq, maiores);
+
+	return maiores;	
+}
+
+int TR::frequenciaPalavra(std::string key) {
+	Item* aux = value(key);
+	if (aux == nullptr) return 0;
+	else return aux->numOcorrencias;
+}
+
+void TR::palavrasMaisLongas() {
+	int maiorTam = 0;
+	std::vector<NoTR*> maiores;
+	maiores = palavrasMaisLongasHelper(raiz, maiorTam, maiores);
+	for (const auto& p : maiores) std::cout << p->key << " ";
+	std::cout << std::endl;
+}
+std::vector<NoTR*> TR::palavrasMaisLongasHelper(NoTR* r, int &maiorTam, std::vector<NoTR*> maiores) {
+	if (r == nullptr) return maiores;
+
+	maiores = palavrasMaisLongasHelper(r->esq, maiorTam, maiores);
+
+	if (r->value->numLetras > maiorTam) {
+		maiores.clear();
+		maiores.push_back(r);
+		maiorTam = r->value->numLetras;
+	}
+	else if (r->value->numLetras == maiorTam) maiores.push_back(r);
+
+	maiores = palavrasMaisLongasHelper(r->dir, maiorTam, maiores);
+
+	return maiores;	
+}
+
+void TR::maioresPalavrasSemRepeticaoLetras() {
+	int maiorTam = 0;
+	std::vector<NoTR*> maiores;
+	maiores = maioresPalavrasSemRepeticaoLetrasHelper(raiz, maiorTam, maiores);
+	for (const auto& p : maiores) std::cout << p->key << " ";
+	std::cout << std::endl;
+}
+
+std::vector<NoTR*> TR::maioresPalavrasSemRepeticaoLetrasHelper(NoTR* r, int &maiorTam, std::vector<NoTR*> maiores) {
+	if (r == nullptr) return maiores;
+
+	maiores = maioresPalavrasSemRepeticaoLetrasHelper(r->esq, maiorTam, maiores);
+
+	if (r->value->numLetras >= maiorTam && !repeteLetras(r->key)) {
+		if (r->value->numLetras > maiorTam) {
+			maiores.clear();
+			maiorTam = r->value->numLetras;
+		}
+		maiores.push_back(r);
+	}
+
+	maiores = maioresPalavrasSemRepeticaoLetrasHelper(r->dir, maiorTam, maiores);
+
+	return maiores;	
+}
+
+void TR::menoresPalavrasSemRepeticaoVogais() {
+	int maiorTam = 100;
+	std::vector<NoTR*> menores;
+	menores = menoresPalavrasSemRepeticaoVogaisHelper(raiz, maiorTam, menores);
+	for (const auto& p : menores) std::cout << p->key << " ";
+	std::cout << std::endl;
+}
+
+std::vector<NoTR*> TR::menoresPalavrasSemRepeticaoVogaisHelper(NoTR* r, int &menorTam, std::vector<NoTR*> menores) {
+	if (r == nullptr) return menores;
+
+	menores = menoresPalavrasSemRepeticaoVogaisHelper(r->esq, menorTam, menores);
+
+	if (r->value->numLetras <= menorTam && !repeteVogais(r->key)) {
+		if (r->value->numLetras < menorTam) {
+			menores.clear();
+			menorTam = r->value->numLetras;
+		}
+		menores.push_back(r);
+	}
+
+	menores = menoresPalavrasSemRepeticaoVogaisHelper(r->dir, menorTam, menores);
+
+	return menores;	
+}

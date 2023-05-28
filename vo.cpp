@@ -77,7 +77,8 @@ void VO::palavrasMaisFrequentes() {
 }
 
 int VO::frequenciaPalavra(std::string key) {
-	return value(key)->numOcorrencias;
+	if (value(key) == nullptr) return 0;
+	else return value(key)->numOcorrencias;
 }
 
 void VO::palavrasMaisLongas() {
@@ -96,16 +97,6 @@ void VO::palavrasMaisLongas() {
 	std::cout << std::endl;
 }
 
-bool VO::repeteLetras(std::string key) {
-	std::vector<char> letras;
-	for (auto it : key) {
-		for (auto it2 : letras) {
-			if (it == it2) return true;
-		}
-		letras.push_back(it);
-	}
-	return false;
-}
 void VO::maioresPalavrasSemRepeticaoLetras() {
 	std::vector<std::string> maioresPalavrasSemRepeticaoLetras;
 	int maiorTamanho = 0;
@@ -122,19 +113,6 @@ void VO::maioresPalavrasSemRepeticaoLetras() {
 	std::cout << std::endl;
 }
 
-bool VO::repeteVogais(std::string key) {
-	std::vector<char> vogais;
-	for (auto it : key) {
-		if (it == 'a' || it == 'e' || it == 'i' || it == 'o' || it == 'u'
-		 || it == 'A' || it == 'E' || it == 'I' || it == 'O' || it == 'U') {
-			for (auto it2 : vogais) {
-				if (it == it2) return true;
-			}
-			vogais.push_back(it);
-		}
-	}
-	return false;
-}
 void VO::menoresPalavrasSemRepeticaoVogais() {
 	std::vector<std::string> menoresPalavrasSemRepeticaoVogais;
 	int menorTamanho = 100;
