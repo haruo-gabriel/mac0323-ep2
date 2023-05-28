@@ -8,12 +8,11 @@
 #include <fstream>
 #include <sstream>
 
-#define MAXKEYS 100000
+#define MAXKEYS 1000000
 
+std::vector<std::string> separaPalavras(unsigned int n);
 int contaNumLetras(const std::string& s);
 int contaNumVogaisUnicas(const std::string& s);
-std::vector<std::string> separaPalavras(unsigned int n);
-
 bool repeteLetras(std::string key);
 bool repeteVogais(std::string key);
 
