@@ -9,11 +9,11 @@
 int main() {
 	std::string e;
 	int n, q;
-	std::vector<std::string> palavras;
+	// std::vector<std::string> palavras;
 
 	// Entradas
 	std::cin >> e >> n;
-	palavras = separaPalavras(n);
+	// palavras = separaPalavras(n);
 	// imprime entrada
 	// for (const std::string& it : palavras) std::cout << it << " ";
 	// std::cout << std::endl << std::endl;
@@ -23,7 +23,8 @@ int main() {
 	if (e == "VO") {
 		// std::cout << "Construindo VO" << std::endl;
 		VO vo = VO();
-		for (const std::string &it : palavras) vo.add(it);
+		vo.separaPalavras(n, vo);
+		// for (const std::string &it : palavras) vo.add(it);
 		// vo.printVO(); std::cout << std::endl;
 		// Consultas
 		std::cin >> q;
@@ -47,7 +48,8 @@ int main() {
 	else if (e == "ABB"){
 		// std::cout << "Construindo ABB" << std::endl;
 		ABB abb = ABB();
-		for (const std::string &it : palavras) abb.add(it);
+		abb.separaPalavras(n, abb);
+		// for (const std::string &it : palavras) abb.add(it);
 		// abb.printABB();
 		// abb.printInordem();
 		// Consultas
@@ -72,11 +74,14 @@ int main() {
 	else if (e == "TR"){
 		// std::cout << "Construindo TR" << std::endl;
 		TR tr = TR();
-		for (const std::string &it : palavras) tr.add(it);
+		tr.separaPalavras(n, tr);
+		// std::cout << std::endl << std::endl;
+		// for (const std::string &it : palavras) tr.add(it);
 		// tr.printTR();
 		// tr.printInordem();
 		// Consultas
 		std::cin >> q;
+		// std::cout << "printing q: " << q << std::endl;
 		for (int i=0; i<q; i++) {
 			std::string consulta; std::cin >> consulta;
 			if (consulta == "F") tr.palavrasMaisFrequentes();
@@ -97,7 +102,8 @@ int main() {
 	else if (e == "A23") {
 		// std::cout << "Construindo A23" << std::endl;
 		A23 a23 = A23();
-		for (const std::string& it : palavras) a23.add(it);
+		a23.separaPalavras(n, a23);
+		// for (const std::string& it : palavras) a23.add(it);
 		// a23.printInordem();
 		// Consultas
 		std::cin >> q;
@@ -121,7 +127,8 @@ int main() {
 	else if (e == "ARN"){
 		// std::cout << "Construindo ARN" << std::endl;
 		ARN arn = ARN();
-		for (const std::string &it : palavras) arn.add(it);
+		arn.separaPalavras(n, arn);
+		// for (const std::string &it : palavras) arn.add(it);
 		// arn.printARN();
 		// arn.printInordem();
 		// Consultas

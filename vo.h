@@ -10,6 +10,8 @@ public:
 
   VO() { }
 
+  void separaPalavras(unsigned int n, VO& vo);
+
   Palavra* value(std::string key);
   void add(std::string key);
   void printVO();

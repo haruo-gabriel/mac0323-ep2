@@ -32,6 +32,8 @@ private:
 public:
     TR() { raiz = nullptr; };
 
+    void separaPalavras(unsigned int n, TR& tr);
+
     void add(std::string key);
     Item* value(std::string key);
     void inordem(NoTR* raiz);

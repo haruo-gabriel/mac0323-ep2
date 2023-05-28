@@ -1,5 +1,43 @@
 #include "tr.h"
 
+void TR::separaPalavras(unsigned int n, TR& tr) {
+	std::string input;
+	unsigned int wordCount = 0;
+
+	while (std::cin >> input && wordCount < n) {
+		std::istringstream iss(input);
+		std::string palavra;
+		while (iss >> palavra) {
+			std::string palavraFiltrada;
+
+			auto it_beginWord = palavra.begin();
+			while (it_beginWord != palavra.end() && !std::isalpha(*it_beginWord)){
+				it_beginWord++;
+				continue;
+			}
+			auto it_endWord = palavra.end();
+			while (it_endWord != it_beginWord && !std::isalpha(*it_endWord)) {
+				it_endWord--;
+				continue;
+			}
+
+			if (it_beginWord == it_endWord) wordCount++;
+			else {
+				palavraFiltrada = std::string(it_beginWord, it_endWord+1);
+				if (!palavraFiltrada.empty()) {
+					tr.add(palavraFiltrada);
+					// std::cout << palavraFiltrada << " ";
+					wordCount++;
+				}
+			}
+			
+			if (wordCount >= n) break;
+		}
+
+		if (wordCount >= n) break;
+	}
+}
+
 Item* TR::value(std::string key) {
 	NoTR* p = raiz;
 	while (p != nullptr) {

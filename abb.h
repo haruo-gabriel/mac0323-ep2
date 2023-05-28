@@ -31,6 +31,7 @@ public:
 	ABB() {
 		raiz = nullptr;
 	};
+	void separaPalavras(unsigned int n, ABB& abb);
 
 	Item* value(std::string key);
 	void add(std::string key);

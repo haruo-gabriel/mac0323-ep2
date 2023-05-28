@@ -10,7 +10,7 @@
 
 #define MAXKEYS 1000000
 
-std::vector<std::string> separaPalavras(unsigned int n);
+// std::vector<std::string> separaPalavras(unsigned int n);
 int contaNumLetras(const std::string& s);
 int contaNumVogaisUnicas(const std::string& s);
 bool repeteLetras(std::string key);

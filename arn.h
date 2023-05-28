@@ -26,15 +26,13 @@ private:
 	void printHelper(NoARN* raiz, std::string indent, bool last);
 	void printInordemHelper(NoARN* r);
 
-	// initializes the nodes with appropriate values
-	// all the pointers are set to point to the null pointer
-	void initializeNULLNode(NoARN* node, NoARN* pai) {
-		node->key = "";
-		node->pai = pai;
-		node->esq = nullptr;
-		node->dir = nullptr;
-		node->cor = 0;
-	}
+	// void initializeNULLNode(NoARN* node, NoARN* pai) {
+	// 	node->key = "";
+	// 	node->pai = pai;
+	// 	node->esq = nullptr;
+	// 	node->dir = nullptr;
+	// 	node->cor = 0;
+	// }
 
 	std::vector<NoARN*> palavrasMaisFrequentesHelper(NoARN* r, int &maiorFreq, std::vector<NoARN*> maiores);
 	std::vector<NoARN*> palavrasMaisLongasHelper(NoARN* r, int &maiorTam, std::vector<NoARN*> maiores);
@@ -44,12 +42,10 @@ private:
 public:
 	ARN() {
 		TNULL = new NoARN("", false, nullptr, nullptr, nullptr);
-		// TNULL = new NoARN();
-		// TNULL->cor = false;
-		// TNULL->esq = nullptr;
-		// TNULL->dir = nullptr;
 		raiz = TNULL;
 	}
+
+	void separaPalavras(unsigned int n, ARN& arn);
 
 	NoARN* value(std::string k);
 	void rotacionaEsq(NoARN* x);

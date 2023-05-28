@@ -1,5 +1,42 @@
 #include "arn.h"
 
+void ARN::separaPalavras(unsigned int n, ARN& arn) {
+	std::string input;
+	unsigned int wordCount = 0;
+
+	while (std::cin >> input && wordCount < n) {
+		std::istringstream iss(input);
+		std::string palavra;
+		while (iss >> palavra) {
+			std::string palavraFiltrada;
+
+			auto it_beginWord = palavra.begin();
+			while (it_beginWord != palavra.end() && !std::isalpha(*it_beginWord)){
+				it_beginWord++;
+				continue;
+			}
+			auto it_endWord = palavra.end();
+			while (it_endWord != it_beginWord && !std::isalpha(*it_endWord)) {
+				it_endWord--;
+				continue;
+			}
+
+			if (it_beginWord == it_endWord) wordCount++;
+			else {
+				palavraFiltrada = std::string(it_beginWord, it_endWord+1);
+				if (!palavraFiltrada.empty()) {
+					arn.add(palavraFiltrada);
+					wordCount++;
+				}
+			}
+			
+			if (wordCount >= n) break;
+		}
+
+		if (wordCount >= n) break;
+	}
+}
+
 NoARN* ARN::value(std::string k) {
   return valueHelper(this->raiz, k);
 }
@@ -24,35 +61,23 @@ void ARN::add(std::string key) {
       }
 		}
 		NoARN* node = new NoARN(key, true, nullptr, TNULL, TNULL);
-		// NoARN* node = new NoARN();
-		// node->pai = nullptr;
-		// node->key = key;
-		// node->esq = TNULL;
-		// node->dir = TNULL;
-		// node->cor = true; // must be red
-
-		// y is pai of x
 		node->pai = y;
 		if (y == nullptr) raiz = node;
     else if (node->key < y->key) y->esq = node;
 		else y->dir = node;
-		// if new node is a raiz node, simply return
 		if (node->pai == nullptr){
       node->cor = 0;
       return;
 		}
-		// if the grandpai is null, simply return
 		if (node->pai->pai == nullptr) return;
-		// Fix the tree
 		arruma(node);
 }
 void ARN::arruma(NoARN* k){
   NoARN* u;
   while (k->pai->cor == 1) {
     if (k->pai == k->pai->pai->dir) {
-      u = k->pai->pai->esq; // uncle
+      u = k->pai->pai->esq;
       if (u->cor == 1) {
-        // case 3.1
         u->cor = 0;
         k->pai->cor = 0;
         k->pai->pai->cor = 1;
@@ -60,21 +85,18 @@ void ARN::arruma(NoARN* k){
       }
       else {
         if (k == k->pai->esq) {
-          // case 3.2.2
           k = k->pai;
           rotacionaDir(k);
         }
-        // case 3.2.1
         k->pai->cor = 0;
         k->pai->pai->cor = 1;
         rotacionaEsq(k->pai->pai);
       }
     }
     else {
-      u = k->pai->pai->dir; // uncle
+      u = k->pai->pai->dir;
 
       if (u->cor == 1) {
-        // mirror case 3.1
         u->cor = 0;
         k->pai->cor = 0;
         k->pai->pai->cor = 1;
@@ -82,11 +104,9 @@ void ARN::arruma(NoARN* k){
       }
       else {
         if (k == k->pai->dir) {
-          // mirror case 3.2.2
           k = k->pai;
           rotacionaEsq(k);
         }
-        // mirror case 3.2.1
         k->pai->cor = 0;
         k->pai->pai->cor = 1;
         rotacionaDir(k->pai->pai);

@@ -35,6 +35,8 @@ public:
     NoA23* raiz;
     A23() { raiz = nullptr; }
 
+    void separaPalavras(unsigned int n, A23& a23);
+
     void add(std::string key);
     NoA23* value(std::string key);
     void printA23();

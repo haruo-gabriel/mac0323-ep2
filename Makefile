@@ -4,13 +4,10 @@ SRC_DIR := .
 
 .PHONY: all clean
 
-all: main.out
+all: main.out votest.out abbtest.out trtest.out a23test.out arntest.out
 
 main.out: main.cpp lib.cpp vo.cpp abb.cpp tr.cpp a23.cpp arn.cpp
 	$(CC) $(CFLAGS) $^ -o $@
-
-clean:
-	rm -f main.out 
 
 votest.out: lib.cpp vo.cpp votest.cpp
 	$(CC) $(CFLAGS) $^ -o $@
@@ -26,3 +23,6 @@ a23test.out: lib.cpp a23.cpp a23test.cpp
 
 arntest.out: arn.cpp arntest.cpp
 	$(CC) $(CFLAGS) $^ -o $@
+
+clean:
+	rm -f main.out votest.out abbtest.out trtest.out a23test.out arntest.out
